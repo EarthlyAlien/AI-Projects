@@ -32,6 +32,17 @@ The 1-2 session premium study is a separate entrypoint. It marks SPY credit vert
 python3 -m oppfinder.short_premium_run
 ```
 
+## Visual UI
+
+A minimal static page lives in `ui/`. It reads a checked-in data file built from the run outputs, so it works offline:
+
+```bash
+python3 -m oppfinder.ui_data
+python3 -m http.server 8000 --directory ui
+```
+
+Open http://127.0.0.1:8000/. The page shows the ranked candidates with their sample sizes, the SPY and NBIS price paths, a 1-2 session pattern explorer with the return distribution, an interactive credit-vertical payoff diagram, and why so few direct option trades could be marked.
+
 ## What it tests
 
 Universe: SPY, QQQ, IWM, AAPL, MSFT, NVDA, AMZN, META, GOOGL, TSLA, AMD, plus AVGO, NFLX, JPM, and AMAT because those four are liquid option underlyings and the free chain history actually contains them.

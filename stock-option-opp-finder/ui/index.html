@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPY &amp; NBIS premium finder — research UI</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>SPY &amp; NBIS premium finder</h1>
+    <p class="sub">Research backtest, 2025-11-10 to 2026-11-10. This is not a recommendation to trade.</p>
+  </div>
+  <div class="badge" id="asOf">loading data…</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Start here: what the evidence supports</h2>
+    <p class="hint">Cards are sorted by the proxy ranking. A card with fewer than 30 windows is a pattern to paper-test, not an edge.</p>
+    <div id="verdicts" class="grid"></div>
+    <p id="directNote" class="note"></p>
+  </section>
+
+  <section class="card">
+    <h2>1. The two price paths</h2>
+    <div class="row">
+      <button class="toggle" data-symbol="SPY">SPY</button>
+      <button class="toggle" data-symbol="NBIS">NBIS</button>
+      <span id="pathStats" class="hint"></span>
+    </div>
+    <div id="priceChart"></div>
+  </section>
+
+  <section class="card">
+    <h2>2. Pattern explorer (1–2 sessions after a signal)</h2>
+    <p class="hint">Each window is what the stock did after a signal. For a credit vertical you want signed drift near or above zero and adverse moves inside the expected move.</p>
+    <div class="row controls">
+      <label>Symbol
+        <select id="exSymbol"><option>SPY</option><option>NBIS</option></select>
+      </label>
+      <label>Pattern
+        <select id="exFamily">
+          <option value="mr_fade">Mean-reversion fade</option>
+          <option value="high_iv">High-IV selling</option>
+          <option value="trend_aligned">Trend-aligned</option>
+        </select>
+      </label>
+      <label>Hold (sessions)
+        <select id="exHorizon"><option value="1">1</option><option value="2" selected>2</option></select>
+      </label>
+    </div>
+    <div id="exStats" class="stats"></div>
+    <h3>Signed return of each window (%)</h3>
+    <div id="exHist"></div>
+    <div id="exTable"></div>
+  </section>
+
+  <section class="card">
+    <h2>3. Credit-vertical payoff lab</h2>
+    <p class="hint">Defined risk only. The chart is the payoff at expiry; the 1–2 day plan is to close early, at the session mark or at half the credit.</p>
+    <div class="row controls">
+      <button class="toggle" id="presetSpy">SPY snapshot preset</button>
+      <button class="toggle" id="presetNbis">NBIS snapshot preset</button>
+    </div>
+    <div class="row controls">
+      <label>Type
+        <select id="pfType"><option value="put">Put credit (bullish)</option><option value="call">Call credit (bearish)</option></select>
+      </label>
+      <label>Short strike <input id="pfShort" type="number" step="0.5" value="755"></label>
+      <label>Long strike <input id="pfLong" type="number" step="0.5" value="750"></label>
+      <label>Credit received <input id="pfCredit" type="number" step="0.05" value="1.01"></label>
+      <label>Contracts <input id="pfContracts" type="number" step="1" min="1" value="1"></label>
+    </div>
+    <div id="pfStats" class="stats"></div>
+    <div id="pfChart"></div>
+    <p class="note">Presets are the 2026-11-11 quote snapshot in the report. They illustrate the shape, not a current fill.</p>
+  </section>
+
+  <section class="card">
+    <h2>4. Direct option backtest: why so few trades?</h2>
+    <div class="row controls">
+      <label>Family
+        <select id="varFamily"><option value="all">All</option><option value="high_iv">High-IV</option><option value="mr_fade">Mean-reversion fade</option><option value="trend_aligned">Trend-aligned</option></select>
+      </label>
+    </div>
+    <div id="varTable"></div>
+  </section>
+
+  <section class="card">
+    <h2>How to read this</h2>
+    <dl class="glossary">
+      <dt>Expectancy</dt><dd>Average profit or loss per trade, scratches included. Positive expectancy with a confidence interval that includes zero is not evidence.</dd>
+      <dt>R</dt><dd>Profit divided by the defined risk. Losing the full spread is about −1R before commissions.</dd>
+      <dt>Signed drift</dt><dd>Stock return after a signal, flipped for shorts. Positive helps a credit vertical; it is not option profit.</dd>
+      <dt>Breach</dt><dd>The stock moved against the credit side by more than the expected move implied at the signal. Frequent breaches mean the premium was not enough for the path.</dd>
+      <dt>Unmarked</dt><dd>The historical chain had no quote for the same strikes on the exit day, so the trade was left out rather than priced with a model.</dd>
+      <dt>NBIS options</dt><dd>No historical NBIS chain exists in the free data used here, so NBIS has stock patterns only. Any NBIS option trade is untested.</dd>
+    </dl>
+  </section>
+</main>
+
+<footer>Data: checked-in outputs in <code>output/</code>. Rebuild this page's data with <code>python3 -m oppfinder.ui_data</code>. Research only.</footer>
+<script src="app.js"></script>
+</body>
+</html>
