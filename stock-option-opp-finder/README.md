@@ -34,14 +34,17 @@ python3 -m oppfinder.short_premium_run
 
 ## Visual UI
 
-A minimal static page lives in `ui/`. It reads a checked-in data file built from the run outputs, so it works offline:
+A beginner page lives in `ui/`. It gives one answer per stock: green (trade, practice first), yellow (wait), or red (skip today), with the exact two-leg order, the money collected, the worst case, and when to close.
+
+The answer comes from `ui/api/market.mjs`, a server route that reads CBOE's free delayed option chain and daily history (the browser cannot read CBOE directly). Green needs the tested stretch pattern on the last finished trading day plus every safety check. The stretch math in `ui/core/market.mjs` is checked against the Python backtest by `tests/test_js_parity.py`.
 
 ```bash
-python3 -m oppfinder.ui_data
-python3 -m http.server 8000 --directory ui
+python3 -m oppfinder.ui_data      # charts and past-test numbers
+node ui/core/save-check.mjs        # saved answer shown if live data cannot load
+node ui/core/dev-server.mjs        # local preview with the live route
 ```
 
-Open http://127.0.0.1:8000/. The page shows the ranked candidates with their sample sizes, the SPY and NBIS price paths, a 1-2 session pattern explorer with the return distribution, an interactive credit-vertical payoff diagram, and why so few direct option trades could be marked.
+Open http://127.0.0.1:8000/. Charts, the pattern explorer, the payoff lab, and the past-test tables are under "More charts and tools".
 
 ## What it tests
 
