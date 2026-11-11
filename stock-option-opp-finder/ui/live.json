@@ -1,0 +1,485 @@
+{
+ "source": "CBOE delayed quotes (free, delayed; not a trade fill)",
+ "symbols": {
+  "SPY": {
+   "timestamp": "2026-11-11 16:33:10",
+   "current_price": 758.37,
+   "price_change_percent": 1.1268,
+   "prev_day_close": 749.92,
+   "iv30_percent": 13.929,
+   "expiry_used": "2026-11-12",
+   "candidates": {
+    "PUT": {
+     "right": "PUT",
+     "expiration": "2026-11-12",
+     "short_strike": 755.0,
+     "long_strike": 750.0,
+     "short_bid": 1.27,
+     "long_ask": 0.51,
+     "short_delta": -0.3012,
+     "short_iv": 0.1521,
+     "credit": 0.76,
+     "width": 5.0,
+     "max_loss_dollars": 424.0,
+     "max_profit_dollars": 76.0,
+     "breakeven": 754.24,
+     "checks": [
+      {
+       "id": "expensive",
+       "label": "Are the options expensive?",
+       "pass": false,
+       "detail": "Option market is charging about 14% expected movement. This stock actually moved about 22% a year pace over the last 20 days. Selling premium only makes sense when the price charged is higher than the movement that usually happens."
+      },
+      {
+       "id": "stretched",
+       "label": "Did the stock just get stretched? (our best-tested pattern)",
+       "pass": false,
+       "detail": "Our tests liked selling premium right after a stretch, because stretched moves often calm down. The last finished trading day did not show that stretch, so this would not be our tested pattern."
+      },
+      {
+       "id": "trend",
+       "label": "Is the trade on the calm side of the trend?",
+       "pass": false,
+       "detail": "Price now 758.37, 50-day average 765.00. A put-credit trade wants price above that average; a call-credit trade wants it below."
+      },
+      {
+       "id": "risk",
+       "label": "Is the worst case small and known?",
+       "pass": true,
+       "detail": "Worst case on 1 contract is $424 if everything goes wrong. You collect $76 if you close flat. Never sell options without that protective second leg."
+      },
+      {
+       "id": "distance",
+       "label": "Is the strike a reasonable distance away?",
+       "pass": true,
+       "detail": "The sold option's delta is -0.30. Roughly, traders read 0.30 as about a 30% chance of ending in the money. Much closer than that is gambling, not premium collecting."
+      }
+     ],
+     "verdict": "This does not match our tested pattern."
+    },
+    "CALL": {
+     "right": "CALL",
+     "expiration": "2026-11-12",
+     "short_strike": 762.0,
+     "long_strike": 767.0,
+     "short_bid": 0.94,
+     "long_ask": 0.18,
+     "short_delta": 0.2703,
+     "short_iv": 0.1304,
+     "credit": 0.76,
+     "width": 5.0,
+     "max_loss_dollars": 424.0,
+     "max_profit_dollars": 76.0,
+     "breakeven": 762.76,
+     "checks": [
+      {
+       "id": "expensive",
+       "label": "Are the options expensive?",
+       "pass": false,
+       "detail": "Option market is charging about 14% expected movement. This stock actually moved about 22% a year pace over the last 20 days. Selling premium only makes sense when the price charged is higher than the movement that usually happens."
+      },
+      {
+       "id": "stretched",
+       "label": "Did the stock just get stretched? (our best-tested pattern)",
+       "pass": false,
+       "detail": "Our tests liked selling premium right after a stretch, because stretched moves often calm down. The last finished trading day did not show that stretch, so this would not be our tested pattern."
+      },
+      {
+       "id": "trend",
+       "label": "Is the trade on the calm side of the trend?",
+       "pass": true,
+       "detail": "Price now 758.37, 50-day average 765.00. A put-credit trade wants price above that average; a call-credit trade wants it below."
+      },
+      {
+       "id": "risk",
+       "label": "Is the worst case small and known?",
+       "pass": true,
+       "detail": "Worst case on 1 contract is $424 if everything goes wrong. You collect $76 if you close flat. Never sell options without that protective second leg."
+      },
+      {
+       "id": "distance",
+       "label": "Is the strike a reasonable distance away?",
+       "pass": true,
+       "detail": "The sold option's delta is 0.27. Roughly, traders read 0.30 as about a 30% chance of ending in the money. Much closer than that is gambling, not premium collecting."
+      }
+     ],
+     "verdict": "This does not match our tested pattern."
+    }
+   },
+   "near_options": [
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 756.0,
+     "bid": 3.97,
+     "ask": 3.99,
+     "iv": 0.1473,
+     "delta": 0.6485,
+     "open_interest": 849.0,
+     "volume": 10221.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 756.0,
+     "bid": 1.53,
+     "ask": 1.54,
+     "iv": 0.1481,
+     "delta": -0.3516,
+     "open_interest": 213.0,
+     "volume": 16515.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 757.0,
+     "bid": 3.3,
+     "ask": 3.32,
+     "iv": 0.1436,
+     "delta": 0.5922,
+     "open_interest": 1287.0,
+     "volume": 17205.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 757.0,
+     "bid": 1.85,
+     "ask": 1.86,
+     "iv": 0.1441,
+     "delta": -0.408,
+     "open_interest": 380.0,
+     "volume": 15123.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 758.0,
+     "bid": 2.69,
+     "ask": 2.7,
+     "iv": 0.1404,
+     "delta": 0.5308,
+     "open_interest": 1273.0,
+     "volume": 19411.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 758.0,
+     "bid": 2.23,
+     "ask": 2.24,
+     "iv": 0.1408,
+     "delta": -0.4696,
+     "open_interest": 120.0,
+     "volume": 5706.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 759.0,
+     "bid": 2.14,
+     "ask": 2.15,
+     "iv": 0.1372,
+     "delta": 0.4656,
+     "open_interest": 3545.0,
+     "volume": 20447.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 759.0,
+     "bid": 2.68,
+     "ask": 2.69,
+     "iv": 0.1373,
+     "delta": -0.5352,
+     "open_interest": 250.0,
+     "volume": 4568.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 760.0,
+     "bid": 1.65,
+     "ask": 1.66,
+     "iv": 0.1342,
+     "delta": 0.3986,
+     "open_interest": 3834.0,
+     "volume": 21275.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 760.0,
+     "bid": 3.2,
+     "ask": 3.21,
+     "iv": 0.1346,
+     "delta": -0.6028,
+     "open_interest": 1476.0,
+     "volume": 1219.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "CALL",
+     "strike": 761.0,
+     "bid": 1.25,
+     "ask": 1.26,
+     "iv": 0.1322,
+     "delta": 0.3326,
+     "open_interest": 1601.0,
+     "volume": 11377.0
+    },
+    {
+     "expiration": "2026-11-12",
+     "type": "PUT",
+     "strike": 761.0,
+     "bid": 3.79,
+     "ask": 3.82,
+     "iv": 0.1318,
+     "delta": -0.6697,
+     "open_interest": 178.0,
+     "volume": 238.0
+    }
+   ]
+  },
+  "NBIS": {
+   "timestamp": "2026-11-11 16:33:13",
+   "current_price": 155.895,
+   "price_change_percent": 16.3396,
+   "prev_day_close": 134.0,
+   "iv30_percent": 102.597,
+   "expiry_used": "2026-11-13",
+   "candidates": {
+    "PUT": {
+     "right": "PUT",
+     "expiration": "2026-11-13",
+     "short_strike": 145.0,
+     "long_strike": 140.0,
+     "short_bid": 5.05,
+     "long_ask": 3.6,
+     "short_delta": -0.2955,
+     "short_iv": 2.0579,
+     "credit": 1.4499999999999997,
+     "width": 5.0,
+     "max_loss_dollars": 355.0,
+     "max_profit_dollars": 144.99999999999997,
+     "breakeven": 143.55,
+     "checks": [
+      {
+       "id": "expensive",
+       "label": "Are the options expensive?",
+       "pass": false,
+       "detail": "Option market is charging about 103% expected movement. This stock actually moved about 125% a year pace over the last 20 days. Selling premium only makes sense when the price charged is higher than the movement that usually happens."
+      },
+      {
+       "id": "stretched",
+       "label": "Did the stock just get stretched? (our best-tested pattern)",
+       "pass": false,
+       "detail": "Our tests liked selling premium right after a stretch, because stretched moves often calm down. The last finished trading day did not show that stretch, so this would not be our tested pattern."
+      },
+      {
+       "id": "trend",
+       "label": "Is the trade on the calm side of the trend?",
+       "pass": false,
+       "detail": "Price now 155.90, 50-day average 198.90. A put-credit trade wants price above that average; a call-credit trade wants it below."
+      },
+      {
+       "id": "risk",
+       "label": "Is the worst case small and known?",
+       "pass": true,
+       "detail": "Worst case on 1 contract is $355 if everything goes wrong. You collect $145 if you close flat. Never sell options without that protective second leg."
+      },
+      {
+       "id": "distance",
+       "label": "Is the strike a reasonable distance away?",
+       "pass": true,
+       "detail": "The sold option's delta is -0.30. Roughly, traders read 0.30 as about a 30% chance of ending in the money. Much closer than that is gambling, not premium collecting."
+      }
+     ],
+     "verdict": "This does not match our tested pattern."
+    },
+    "CALL": {
+     "right": "CALL",
+     "expiration": "2026-11-13",
+     "short_strike": 172.5,
+     "long_strike": 177.5,
+     "short_bid": 3.95,
+     "long_ask": 3.0,
+     "short_delta": 0.2882,
+     "short_iv": 2.0071,
+     "credit": 0.9500000000000002,
+     "width": 5.0,
+     "max_loss_dollars": 405.0,
+     "max_profit_dollars": 95.00000000000001,
+     "breakeven": 173.45,
+     "checks": [
+      {
+       "id": "expensive",
+       "label": "Are the options expensive?",
+       "pass": false,
+       "detail": "Option market is charging about 103% expected movement. This stock actually moved about 125% a year pace over the last 20 days. Selling premium only makes sense when the price charged is higher than the movement that usually happens."
+      },
+      {
+       "id": "stretched",
+       "label": "Did the stock just get stretched? (our best-tested pattern)",
+       "pass": false,
+       "detail": "Our tests liked selling premium right after a stretch, because stretched moves often calm down. The last finished trading day did not show that stretch, so this would not be our tested pattern."
+      },
+      {
+       "id": "trend",
+       "label": "Is the trade on the calm side of the trend?",
+       "pass": true,
+       "detail": "Price now 155.90, 50-day average 198.90. A put-credit trade wants price above that average; a call-credit trade wants it below."
+      },
+      {
+       "id": "risk",
+       "label": "Is the worst case small and known?",
+       "pass": true,
+       "detail": "Worst case on 1 contract is $405 if everything goes wrong. You collect $95 if you close flat. Never sell options without that protective second leg."
+      },
+      {
+       "id": "distance",
+       "label": "Is the strike a reasonable distance away?",
+       "pass": true,
+       "detail": "The sold option's delta is 0.29. Roughly, traders read 0.30 as about a 30% chance of ending in the money. Much closer than that is gambling, not premium collecting."
+      }
+     ],
+     "verdict": "This does not match our tested pattern."
+    }
+   },
+   "near_options": [
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 150.0,
+     "bid": 12.9,
+     "ask": 13.1,
+     "iv": 2.0389,
+     "delta": 0.6282,
+     "open_interest": 3554.0,
+     "volume": 4385.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 150.0,
+     "bid": 7.0,
+     "ask": 7.1,
+     "iv": 2.0533,
+     "delta": -0.3722,
+     "open_interest": 1379.0,
+     "volume": 1564.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 152.5,
+     "bid": 11.5,
+     "ask": 11.7,
+     "iv": 2.0365,
+     "delta": 0.5883,
+     "open_interest": 613.0,
+     "volume": 1529.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 152.5,
+     "bid": 8.15,
+     "ask": 8.25,
+     "iv": 2.0452,
+     "delta": -0.4122,
+     "open_interest": 277.0,
+     "volume": 698.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 155.0,
+     "bid": 10.2,
+     "ask": 10.45,
+     "iv": 2.0336,
+     "delta": 0.548,
+     "open_interest": 1356.0,
+     "volume": 3357.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 155.0,
+     "bid": 9.3,
+     "ask": 9.45,
+     "iv": 2.0423,
+     "delta": -0.4526,
+     "open_interest": 539.0,
+     "volume": 768.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 157.5,
+     "bid": 9.1,
+     "ask": 9.25,
+     "iv": 2.0255,
+     "delta": 0.5077,
+     "open_interest": 476.0,
+     "volume": 930.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 157.5,
+     "bid": 10.65,
+     "ask": 10.8,
+     "iv": 2.0444,
+     "delta": -0.493,
+     "open_interest": 87.0,
+     "volume": 149.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 160.0,
+     "bid": 8.0,
+     "ask": 8.15,
+     "iv": 2.0331,
+     "delta": 0.4678,
+     "open_interest": 4246.0,
+     "volume": 6851.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 160.0,
+     "bid": 12.0,
+     "ask": 12.3,
+     "iv": 2.0365,
+     "delta": -0.5329,
+     "open_interest": 658.0,
+     "volume": 239.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "CALL",
+     "strike": 162.5,
+     "bid": 6.95,
+     "ask": 7.15,
+     "iv": 2.0207,
+     "delta": 0.4288,
+     "open_interest": 390.0,
+     "volume": 1202.0
+    },
+    {
+     "expiration": "2026-11-13",
+     "type": "PUT",
+     "strike": 162.5,
+     "bid": 13.55,
+     "ask": 13.8,
+     "iv": 2.0347,
+     "delta": -0.572,
+     "open_interest": 87.0,
+     "volume": 42.0
+    }
+   ]
+  }
+ }
+}

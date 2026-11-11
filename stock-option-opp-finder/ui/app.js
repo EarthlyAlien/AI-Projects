@@ -1,10 +1,12 @@
 "use strict";
 
 const FAMILY_LABEL = {
-  mr_fade: "Mean-reversion fade",
-  high_iv: "High-IV selling",
-  trend_aligned: "Trend-aligned",
+  mr_fade: "After a stretch",
+  high_iv: "When options are expensive",
+  trend_aligned: "With the trend",
 };
+
+const CBOE_CHAIN = (symbol) => "https://cdn.cboe.com/api/global/delayed_quotes/options/" + symbol + ".json";
 
 let DATA = null;
 
@@ -123,13 +125,13 @@ function renderVerdicts() {
       esc(FAMILY_LABEL[row.family] || row.family) + ", " + row.horizon + " session" + (row.horizon > 1 ? "s" : "") + "</h3>" +
       pill +
       "<p>Signed drift <b>" + pct(row.mean_signed_return) + "</b> · win rate " + pct(row.win_rate) + "</p>" +
-      "<p>Adverse close beyond expected move: " + pct(row.breach_close_rate) +
-      "<br>Adverse intraday: " + pct(row.breach_intra_rate) + "</p></div>";
+      "<p>Moved too far by the close: " + pct(row.breach_close_rate) +
+      "<br>Moved too far during the day: " + pct(row.breach_intra_rate) + "</p></div>";
   }).join("");
   const direct = DATA.direct_summary || {};
   document.getElementById("directNote").textContent =
-    "Direct SPY option marks at 1-2 sessions: " + (direct.marked || 0) + " marked closes across 18 variants, " +
-    (direct.unmarked || 0) + " unmarked. That is why the cards use the underlying proxy and say so.";
+    "When we tried to check real SPY option prices 1-2 days later, we could only do it " + (direct.marked || 0) +
+    " times out of " + ((direct.marked || 0) + (direct.unmarked || 0)) + " tries. The other times the free data had no price, and we refused to guess. That is why these cards grade the stock's behaviour instead, and say so.";
 }
 
 function renderPrices(symbol) {
@@ -228,6 +230,176 @@ function preset(symbol) {
   renderPayoff();
 }
 
+function parseOcc(code) {
+  const match = /(\d{6})([CP])(\d{8})$/.exec(code || "");
+  if (!match) return null;
+  const expiry = "20" + match[1].slice(0, 2) + "-" + match[1].slice(2, 4) + "-" + match[1].slice(4, 6);
+  return { expiration: expiry, type: match[2] === "C" ? "CALL" : "PUT", strike: Number(match[3]) / 1000 };
+}
+
+function buildCandidate(options, expiration, right) {
+  const legs = options.filter((row) =>
+    row.expiration === expiration && row.type === right &&
+    row.bid > 0 && row.ask >= row.bid && row.delta !== null && row.delta !== undefined);
+  if (!legs.length) return null;
+  const target = right === "PUT" ? -0.30 : 0.30;
+  const short = legs.reduce((best, row) =>
+    Math.abs(row.delta - target) < Math.abs(best.delta - target) ? row : best, legs[0]);
+  const strikes = [...new Set(legs.map((row) => row.strike))].sort((a, b) => a - b);
+  const beyond = right === "PUT"
+    ? strikes.filter((s) => s < short.strike)
+    : strikes.filter((s) => s > short.strike);
+  const wingTarget = right === "PUT" ? short.strike - 5 : short.strike + 5;
+  const wingStrike = beyond.reduce((best, s) =>
+    Math.abs(s - wingTarget) < Math.abs(best - wingTarget) ? s : best, beyond[0]);
+  if (wingStrike === undefined) return null;
+  const wing = legs.find((row) => row.strike === wingStrike);
+  const credit = short.bid - wing.ask;
+  const width = Math.abs(short.strike - wingStrike);
+  if (credit <= 0 || width <= 0) return null;
+  return {
+    right, expiration,
+    short_strike: short.strike, long_strike: wingStrike,
+    short_bid: short.bid, long_ask: wing.ask, short_delta: short.delta, short_iv: short.iv,
+    credit, width,
+    max_loss_dollars: (width - credit) * 100,
+    max_profit_dollars: credit * 100,
+    breakeven: right === "PUT" ? short.strike - credit : short.strike + credit,
+  };
+}
+
+function liveChecks(context, candidate, iv30Percent, spot) {
+  const checks = [];
+  if (!context || !candidate) return checks;
+  if (iv30Percent !== null && iv30Percent !== undefined && context.rv20) {
+    checks.push({
+      label: "Are the options expensive?",
+      pass: iv30Percent / 100 > context.rv20,
+      detail: "The option market charges about " + num(iv30Percent, 0) + "% for expected movement. This stock actually moved at about " +
+        num(context.rv20 * 100, 0) + "% a year pace in the last 20 days. Selling only makes sense when the charge is higher.",
+    });
+  }
+  const want = candidate.right === "PUT" ? 1 : -1;
+  const stretched = (context.signals || {}).mr_fade === want;
+  checks.push({
+    label: "Did the stock just get stretched? (our best-tested pattern)",
+    pass: stretched,
+    detail: stretched
+      ? "The last finished trading day did show that stretch."
+      : "The last finished trading day did not show that stretch, so this is not our tested pattern.",
+  });
+  if (spot && context.sma50) {
+    const withTrend = candidate.right === "PUT" ? spot > context.sma50 : spot < context.sma50;
+    checks.push({
+      label: "Is the trade on the calm side of the trend?",
+      pass: withTrend,
+      detail: "Price now " + num(spot) + ", 50-day average " + num(context.sma50) + ". A put spread wants price above that average; a call spread wants it below.",
+    });
+  }
+  checks.push({
+    label: "Is the worst case small and known?",
+    pass: candidate.max_loss_dollars <= 1000,
+    detail: "Worst case on 1 contract is $" + num(candidate.max_loss_dollars, 0) + ". You collect $" +
+      num(candidate.max_profit_dollars, 0) + " if you close flat. Never sell without the protective second leg.",
+  });
+  checks.push({
+    label: "Is the strike a reasonable distance away?",
+    pass: Math.abs(candidate.short_delta) <= 0.35,
+    detail: "The sold option's delta is " + num(candidate.short_delta) + ". Traders read 0.30 as roughly a 30% chance of ending in the money. Much closer is gambling, not premium collecting.",
+  });
+  return checks;
+}
+
+function verdictText(checks) {
+  if (!checks.length) return "We could not run the checks.";
+  const passed = checks.filter((check) => check.pass).length;
+  if (passed === checks.length) return "This matches our tested pattern.";
+  if (passed >= checks.length - 1) return "This partly matches. Read the failed check first.";
+  return "This does not match our tested pattern.";
+}
+
+function renderLiveResult(symbol, right, spot, iv30Percent, timestamp, candidate, checks, sourceNote, nearRows) {
+  const host = document.getElementById("liveOut");
+  const checksHtml = checks.map((check) =>
+    '<div class="verdict"><p><span class="pill ' + (check.pass ? "ok" : "weak") + '">' +
+    (check.pass ? "YES" : "NO") + "</span> <b>" + esc(check.label) + "</b></p><p>" + esc(check.detail) + "</p></div>"
+  ).join("");
+  let html = '<p class="hint">' + esc(sourceNote) + " Prices as of " + esc(timestamp || "n/a") + ".</p>";
+  html += '<div class="stats">' +
+    '<div class="stat"><b>' + num(spot) + "</b><span>" + esc(symbol) + " price now</span></div>" +
+    '<div class="stat"><b>' + (iv30Percent === null || iv30Percent === undefined ? "n/a" : num(iv30Percent, 1) + "%") + "</b><span>option expensiveness (IV30)</span></div>" +
+    '<div class="stat"><b>' + (candidate ? money(candidate.max_profit_dollars) : "n/a") + "</b><span>money collected, 1 contract</span></div>" +
+    '<div class="stat"><b>' + (candidate ? money(candidate.max_loss_dollars) : "n/a") + "</b><span>worst case, 1 contract</span></div></div>";
+  if (candidate) {
+    html += '<p><b>' + esc(verdictText(checks)) + "</b> The trade we built: sell the " + num(candidate.short_strike, 0) + " " +
+      candidate.right.toLowerCase() + " at " + num(candidate.short_bid) + ", buy the " + num(candidate.long_strike, 0) +
+      " at " + num(candidate.long_ask) + ", both expiring " + esc(candidate.expiration) + ". You collect $" +
+      num(candidate.max_profit_dollars, 0) + ". If the stock ends past " + num(candidate.breakeven) +
+      " the wrong way, losses grow to the worst case above. Plan: close in 1-2 days, or when half the money is safe.</p>";
+  } else {
+    html += "<p>No safe two-leg trade could be built from this chain.</p>";
+  }
+  html += '<div class="grid">' + checksHtml + "</div>";
+  if (nearRows && nearRows.length) {
+    html += "<h3>Options near today's price (" + esc(candidate ? candidate.expiration : "") + ")</h3><table><tr><th>Strike</th><th>You sell at</th><th>You buy at</th><th>Expensiveness (IV)</th><th>Delta</th></tr>" +
+      nearRows.map((row) => "<tr><td>" + num(row.strike, 0) + "</td><td>" + num(row.bid) + "</td><td>" + num(row.ask) +
+        "</td><td>" + pct(row.iv) + "</td><td>" + num(row.delta, 3) + "</td></tr>").join("") + "</table>";
+  }
+  host.innerHTML = html;
+}
+
+async function checkLive() {
+  const symbol = document.getElementById("liveSymbol").value;
+  const right = document.getElementById("liveIdea").value;
+  const host = document.getElementById("liveOut");
+  host.innerHTML = '<p class="hint">Fetching today\'s chain for ' + esc(symbol) + "…</p>";
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000);
+    const response = await fetch(CBOE_CHAIN(symbol), { signal: controller.signal, cache: "no-store" });
+    clearTimeout(timer);
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const payload = await response.json();
+    const data = payload.data || {};
+    const options = [];
+    (data.options || []).forEach((item) => {
+      const parsed = parseOcc(item.option);
+      if (parsed) options.push({ ...parsed, bid: item.bid, ask: item.ask, iv: item.iv, delta: item.delta });
+    });
+    const today = String(payload.timestamp || "").slice(0, 10);
+    const expirations = [...new Set(options.map((row) => row.expiration))].sort();
+    const expiry = expirations.find((day) => day > today) || expirations[expirations.length - 1];
+    const candidate = buildCandidate(options, expiry, right);
+    const context = (DATA.symbol_context || {})[symbol] || {};
+    const checks = liveChecks(context, candidate, data.iv30, data.current_price);
+    const spot = data.current_price;
+    const nearRows = options
+      .filter((row) => row.expiration === expiry && row.type === right && spot && Math.abs(row.strike - spot) / spot <= 0.1)
+      .sort((a, b) => Math.abs(a.strike - spot) - Math.abs(b.strike - spot))
+      .slice(0, 10)
+      .sort((a, b) => a.strike - b.strike);
+    renderLiveResult(symbol, right, spot, data.iv30, payload.timestamp, candidate, checks,
+      "Live from CBOE delayed quotes (about 15 minutes delayed). This is a check, not a trade instruction.", nearRows);
+  } catch (error) {
+    try {
+      const saved = await (await fetch("live.json")).json();
+      const entry = (saved.symbols || {})[symbol];
+      if (!entry || entry.error) throw new Error(entry ? entry.error : "no saved check");
+      const candidate = (entry.candidates || {})[right];
+      renderLiveResult(symbol, right, entry.current_price, entry.iv30_percent, entry.timestamp,
+        candidate, candidate ? candidate.checks || [] : [],
+        "The live fetch was blocked (" + error.message + "), so this is the last saved check. It is not live.",
+        (entry.near_options || []).filter((row) => row.type === right)
+          .sort((a, b) => Math.abs(a.strike - entry.current_price) - Math.abs(b.strike - entry.current_price))
+          .slice(0, 10)
+          .sort((a, b) => a.strike - b.strike));
+    } catch (fallbackError) {
+      host.innerHTML = '<p class="hint">We could not fetch the live chain (' + esc(error.message) +
+        ") and no saved check loaded (" + esc(fallbackError.message) + "). Nothing was guessed.</p>";
+    }
+  }
+}
+
 async function boot() {
   const response = await fetch("data.json");
   DATA = await response.json();
@@ -251,6 +423,10 @@ async function boot() {
   document.getElementById("presetSpy").addEventListener("click", () => preset("SPY"));
   document.getElementById("presetNbis").addEventListener("click", () => preset("NBIS"));
   document.getElementById("varFamily").addEventListener("change", renderVariants);
+  document.getElementById("liveBtn").addEventListener("click", checkLive);
+  document.getElementById("liveSymbol").addEventListener("change", checkLive);
+  document.getElementById("liveIdea").addEventListener("change", checkLive);
+  checkLive();
 }
 
 boot().catch((error) => {

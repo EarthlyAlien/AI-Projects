@@ -9,6 +9,11 @@ import sys
 from datetime import date
 from pathlib import Path
 
+from oppfinder.config import WARMUP_START
+from oppfinder.data_sources import ResearchStore
+from oppfinder.features import build_records
+from oppfinder.short_premium import FAMILIES
+
 STUDY_START = date(2025, 11, 10)
 STUDY_END = date(2026, 11, 10)
 
@@ -57,6 +62,7 @@ def build_data(root: Path) -> dict:
     return {
         "generated_from": "checked-in outputs under output/; no live data",
         "study": {"start": STUDY_START.isoformat(), "end": STUDY_END.isoformat()},
+        "symbol_context": _symbol_context(root),
         "main_summaries": main.get("summaries") or [],
         "headline_option": main.get("headline_option"),
         "headline_proxy": main.get("headline_proxy"),
@@ -74,6 +80,43 @@ def build_data(root: Path) -> dict:
         "current_signals": short.get("current_signals") or [],
         "last_complete": short.get("last_complete"),
     }
+
+
+def _symbol_context(root: Path) -> dict:
+    """Last completed bar's plain indicators per symbol, from the cached prices."""
+    store = ResearchStore(root / "data")
+    contexts = {}
+    for symbol in ("SPY", "NBIS"):
+        bars, _splits = store.load_prices(symbol, WARMUP_START, STUDY_END)
+        bars = [bar for bar in bars if bar["date"] <= STUDY_END]
+        if not bars:
+            continue
+        points = []
+        if symbol == "SPY":
+            vols = store.load_volatility(symbol, WARMUP_START, STUDY_END)
+            points = [
+                (row["date"], float(row["iv_current"]))
+                for row in vols
+                if row.get("iv_current") is not None and row["date"] <= STUDY_END
+            ]
+        records = build_records(bars, points)
+        last = records[-1]
+        index = len(records) - 1
+        contexts[symbol] = {
+            "as_of": last["date"].isoformat(),
+            "close": last["close"],
+            "sma20": last.get("sma20"),
+            "sma50": last.get("sma50"),
+            "sma200": last.get("sma200"),
+            "rsi2": last.get("rsi2"),
+            "rv20": last.get("rv20"),
+            "atr14": last.get("atr14"),
+            "iv": last.get("iv"),
+            "trend_regime": last.get("trend_regime"),
+            "vol_regime": last.get("vol_regime"),
+            "signals": {name: side_fn(records, index) for name, side_fn in FAMILIES.items()},
+        }
+    return contexts
 
 
 def _json(path: Path) -> dict:

@@ -4,6 +4,44 @@
   "start": "2025-11-10",
   "end": "2026-11-10"
  },
+ "symbol_context": {
+  "SPY": {
+   "as_of": "2026-11-10",
+   "close": 749.9199829101562,
+   "sma20": 760.6884887695312,
+   "sma50": 765.0039953613282,
+   "sma200": 730.9857989501953,
+   "rsi2": 58.553939134967464,
+   "rv20": 0.22270172645610106,
+   "atr14": 10.946524474940848,
+   "iv": 0.1577,
+   "trend_regime": "uptrend",
+   "vol_regime": "high_vol",
+   "signals": {
+    "high_iv": 0,
+    "mr_fade": 0,
+    "trend_aligned": 0
+   }
+  },
+  "NBIS": {
+   "as_of": "2026-11-10",
+   "close": 134.0,
+   "sma20": 158.1565013885498,
+   "sma50": 198.89930068969727,
+   "sma200": 178.82350051879882,
+   "rsi2": 43.69130214506416,
+   "rv20": 1.2470913643872483,
+   "atr14": 16.288318531838293,
+   "iv": null,
+   "trend_regime": "range",
+   "vol_regime": "high_vol",
+   "signals": {
+    "high_iv": 0,
+    "mr_fade": 0,
+    "trend_aligned": 0
+   }
+  }
+ },
  "main_summaries": [
   {
    "result_type": "direct_option",
