@@ -236,6 +236,38 @@ def fetch_json(url: str, timeout: int = 60, attempts: int = 3) -> tuple[dict | l
     return None, "JSON root was not an object or list"
 
 
+def probe_chain_count(symbol: str, day: date) -> tuple[int | None, str | None]:
+    """Row count for one symbol on one session. Used to confirm a name is absent."""
+    symbol = _check_symbol(symbol)
+    sql = (
+        "SELECT COUNT(*) AS n FROM option_chain "
+        f"WHERE act_symbol = '{symbol}' AND date = '{_check_date(day)}'"
+    )
+    raw, err = dolt_query(sql, attempts=2, timeout=40)
+    if err or not raw:
+        return None, err or "empty chain count"
+    try:
+        return int(raw[0]["n"]), None
+    except (KeyError, TypeError, ValueError):
+        return None, "chain count was not an integer"
+
+
+def probe_volatility_count(symbol: str) -> tuple[int | None, str | None]:
+    """How many vendor-IV rows this symbol has. A zero is a real empty result, not a guess."""
+    symbol = _check_symbol(symbol)
+    sql = (
+        "SELECT COUNT(*) AS n FROM volatility_history "
+        f"WHERE act_symbol = '{symbol}'"
+    )
+    raw, err = dolt_query(sql, attempts=2, timeout=45)
+    if err or not raw:
+        return None, err or "empty count"
+    try:
+        return int(raw[0]["n"]), None
+    except (KeyError, TypeError, ValueError):
+        return None, "volatility count was not an integer"
+
+
 def dolt_query(sql: str, attempts: int = 3, timeout: int = 50) -> tuple[list[dict] | None, str | None]:
     url = DOLT_SQL_URL + "?" + urllib.parse.urlencode({"q": sql})
     last = "no attempt"

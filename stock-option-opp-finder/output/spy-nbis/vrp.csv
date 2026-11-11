@@ -1,0 +1,10 @@
+result_type,symbol,signal_date,end_date,side,iv,forward_rv,iv_minus_rv,variance_gap,underlying_return,expected_move,inside_expected_move,adverse_beyond_expected_move,trend_regime,vol_regime,horizon_sessions
+vendor_iv,SPY,2025-11-13,2025-12-05,put_credit,0.1698,0.12723519,0.04256481,0.01264325,0.02031133,0.04142696,true,false,uptrend,low_vol,15
+vendor_iv,SPY,2026-01-20,2026-02-10,call_credit,0.1678,0.12388894,0.04391106,0.01280837,0.02145869,0.04093901,true,false,uptrend,low_vol,15
+vendor_iv,SPY,2026-02-12,2026-03-06,call_credit,0.1738,0.11159119,0.06220881,0.01775385,-0.01304918,0.04240286,true,false,uptrend,high_vol,15
+vendor_iv,SPY,2026-03-06,2026-03-27,call_credit,0.2287,0.16414652,0.06455348,0.02535961,-0.05694693,0.05579709,false,false,uptrend,high_vol,15
+vendor_iv,SPY,2026-03-27,2026-04-20,call_credit,0.2648,0.14757413,0.11722587,0.04834092,0.11769613,0.06460458,false,true,range,high_vol,15
+vendor_iv,SPY,2026-04-27,2026-05-18,put_credit,0.1542,0.10834914,0.04585086,0.0120381,0.03283141,0.03762095,true,false,uptrend,high_vol,15
+vendor_iv,SPY,2026-05-18,2026-06-09,put_credit,0.1527,0.13539654,0.01730346,0.00498507,-0.00216616,0.03725499,true,false,uptrend,low_vol,15
+vendor_iv,SPY,2026-06-09,2026-07-01,put_credit,0.1648,0.17615907,-0.01135907,-0.00387298,0.01181741,0.04020708,true,false,uptrend,high_vol,15
+vendor_iv,SPY,2026-07-17,2026-08-07,call_credit,0.1524,0.1506827,0.0017173,0.00052048,0.04032078,0.03718179,false,true,uptrend,low_vol,15

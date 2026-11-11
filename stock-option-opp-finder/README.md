@@ -18,6 +18,14 @@ The runner uses the Python standard library only. Tests need `pytest` (`pip inst
 
 Cached downloads live in `data/`. Delete that directory, or pass `--refresh`, to call the sources again. `--findings PATH` also writes the long report.
 
+A two-name run keeps the same rules and writes its own folder:
+
+```bash
+python3 -m oppfinder --symbols SPY,NBIS --output output/spy-nbis
+```
+
+NBIS is included only when that command is used. If the free option dataset has no rows for a symbol, the run says so and prices the stock rules only.
+
 ## What it tests
 
 Universe: SPY, QQQ, IWM, AAPL, MSFT, NVDA, AMZN, META, GOOGL, TSLA, AMD, plus AVGO, NFLX, JPM, and AMAT because those four are liquid option underlyings and the free chain history actually contains them.

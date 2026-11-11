@@ -27,10 +27,12 @@ from oppfinder.config import (
     MR_HOLD,
     WARMUP_START,
 )
-from oppfinder.data_sources import ResearchStore, probe_sentiment
+from oppfinder.data_sources import ResearchStore, probe_chain_count, probe_sentiment, probe_volatility_count
 from oppfinder.engine import run_protected_trades
+from oppfinder.events import linked_returns, path_summary, signal_windows, summarize_windows
 from oppfinder.features import build_records, with_external_iv
 from oppfinder.options_backtest import price_directional, price_premium
+from oppfinder.pair_report import render_pair
 from oppfinder.report import render_findings
 from oppfinder.scan import build_scan
 from oppfinder.sentiment import mask_side
@@ -66,32 +68,55 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run the stock and listed-vertical research book.")
     parser.add_argument("--refresh", action="store_true", help="Ignore cached downloads.")
     parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--symbols", default=None, help="Comma-separated symbols. Default is the full study universe.")
+    parser.add_argument("--output", type=Path, default=None, help="Output directory. Default is output/.")
     parser.add_argument("--findings", type=Path, default=None, help="Also write the report to this path.")
     args = parser.parse_args(argv)
     root = Path(__file__).resolve().parents[1]
     store = ResearchStore(root / "data", refresh=args.refresh)
-    result = execute(store, workers=args.workers)
-    output = root / "output"
+    if args.symbols:
+        price_symbols = tuple(part.strip().upper() for part in args.symbols.split(",") if part.strip())
+        option_symbols = tuple(symbol for symbol in price_symbols if symbol in OPTION_SYMBOLS)
+        pair = True
+    else:
+        price_symbols = PRICE_SYMBOLS
+        option_symbols = OPTION_SYMBOLS
+        pair = False
+    result = execute(
+        store,
+        workers=args.workers,
+        price_symbols=price_symbols,
+        option_symbols=option_symbols,
+        write_cache_tables=not pair,
+    )
+    output = args.output or (root / "output")
     output.mkdir(parents=True, exist_ok=True)
     _write_outputs(output, result)
-    summary = render_findings(result, frontmatter=False)
+    summary = render_pair(result, frontmatter=False) if pair else render_findings(result, frontmatter=False)
     (output / "summary.md").write_text(summary)
     if args.findings:
         args.findings.parent.mkdir(parents=True, exist_ok=True)
-        args.findings.write_text(render_findings(result, frontmatter=True))
+        text = render_pair(result, frontmatter=True) if pair else render_findings(result, frontmatter=True)
+        args.findings.write_text(text)
     print(f"wrote {output / 'summary.md'}", flush=True)
     return 0 if result["backdrop"]["priced_symbols"] else 1
 
 
-def execute(store: ResearchStore, workers: int = 4) -> dict:
+def execute(
+    store: ResearchStore,
+    workers: int = 4,
+    price_symbols: tuple[str, ...] = PRICE_SYMBOLS,
+    option_symbols: tuple[str, ...] = OPTION_SYMBOLS,
+    write_cache_tables: bool = True,
+) -> dict:
     print("downloading prices, CBOE indexes, vendor IV, and sentiment probes", flush=True)
-    prices, splits, vols, indexes, probe = _download(store, workers)
+    prices, splits, vols, indexes, probe, coverage = _download(store, workers, price_symbols, option_symbols)
     last_complete, session_bits = _last_complete(prices, indexes)
     print(f"last complete session {last_complete.isoformat()}", flush=True)
     frames: dict[str, list[dict]] = {}
     split_dates: dict[str, list[date]] = {}
     diagnostics = []
-    for symbol in PRICE_SYMBOLS:
+    for symbol in price_symbols:
         bars = [bar for bar in prices.get(symbol, []) if bar["date"] <= last_complete]
         if not bars:
             continue
@@ -126,16 +151,27 @@ def execute(store: ResearchStore, workers: int = 4) -> dict:
     underlying, underlying_skips = _run_underlying(frames, None)
     print(f"underlying trades {len(underlying)}", flush=True)
     option_trades, option_skips, unmarked = _run_options(
-        frames, split_dates, underlying, store, workers, premium_side, last_complete
+        frames, split_dates, underlying, store, workers, premium_side, last_complete, option_symbols
     )
     print(f"option trades {len(option_trades)} unmarked {len(unmarked)}", flush=True)
-    vrp_rows = _vrp_rows(frames, indexes, last_complete)
-    sentiment = _apply_sentiment(probe, frames, split_dates, store, workers, last_complete)
+    vrp_rows = _vrp_rows(frames, indexes, last_complete, option_symbols)
+    sentiment = _apply_sentiment(probe, frames, split_dates, store, workers, last_complete, option_symbols)
     trades = underlying + option_trades
     summaries = _summaries(trades)
     filtered_summaries = _summaries(sentiment["trades"]) if sentiment["applied"] else []
     scan = build_scan(frames, summaries, store.load_chain, last_complete) if frames else []
-    backdrop = _backdrop(frames, indexes, diagnostics, last_complete, session_bits, prices)
+    backdrop = _backdrop(frames, indexes, diagnostics, last_complete, session_bits, prices, price_symbols, option_symbols)
+    event_rows, event_summaries = _events(frames, last_complete)
+    paths = []
+    for symbol, records in frames.items():
+        path = dict(path_summary(records, STUDY_START, last_complete), symbol=symbol)
+        path["trend_counts"] = _label_counts(records, last_complete, "trend_regime")
+        path["vol_counts"] = _label_counts(records, last_complete, "vol_regime")
+        paths.append(path)
+    link = {}
+    if "SPY" in frames and any(symbol != "SPY" for symbol in frames):
+        other = next(symbol for symbol in frames if symbol != "SPY")
+        link = {"left": "SPY", "right": other, **linked_returns(frames["SPY"], frames[other], STUDY_START, last_complete)}
     result = {
         "backdrop": backdrop,
         "summaries": summaries,
@@ -162,20 +198,53 @@ def execute(store: ResearchStore, workers: int = 4) -> dict:
         "vrp_rows": vrp_rows,
         "unmarked": unmarked,
         "diagnostics": diagnostics,
+        "by_symbol": _by_symbol(trades),
+        "event_rows": event_rows,
+        "event_summaries": event_summaries,
+        "paths": paths,
+        "link": link,
+        "coverage": coverage,
+        "coverage_notes": _coverage_notes(coverage),
     }
-    _write_cached_tables(store.root, frames, vols, indexes, splits)
+    if write_cache_tables:
+        _write_cached_tables(store.root, frames, vols, indexes, splits)
     return result
 
 
-def _download(store: ResearchStore, workers: int):
+def _download(store: ResearchStore, workers: int, price_symbols: tuple[str, ...], option_symbols: tuple[str, ...]):
     prices: dict[str, list[dict]] = {}
     splits: dict[str, list] = {}
     vols: dict[str, list[dict]] = {}
     indexes: dict[str, list[dict]] = {}
+    coverage: dict[str, dict] = {}
+    for symbol in price_symbols:
+        if symbol in option_symbols:
+            continue
+        count, err = probe_volatility_count(symbol)
+        chain_rows = None
+        chain_error = None
+        chain_day = date(2026, 11, 6)
+        if count == 0:
+            chain_rows, chain_error = probe_chain_count(symbol, chain_day)
+        coverage[symbol] = {
+            "vol_rows": count,
+            "error": err,
+            "chain_rows": chain_rows,
+            "chain_error": chain_error,
+            "chain_date": chain_day.isoformat(),
+        }
+        if err:
+            store.note("dolthub_vol", err, symbol)
+        elif count == 0:
+            store.note(
+                "dolthub_vol",
+                "volatility_history returned 0 rows, so no listed vertical was backtested",
+                symbol,
+            )
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        price_futs = {pool.submit(store.load_prices, symbol, WARMUP_START, STUDY_END): symbol for symbol in PRICE_SYMBOLS}
+        price_futs = {pool.submit(store.load_prices, symbol, WARMUP_START, STUDY_END): symbol for symbol in price_symbols}
         index_futs = {pool.submit(store.load_index, name): name for name in INDEXES}
-        vol_futs = {pool.submit(store.load_volatility, symbol, WARMUP_START, STUDY_END): symbol for symbol in OPTION_SYMBOLS}
+        vol_futs = {pool.submit(store.load_volatility, symbol, WARMUP_START, STUDY_END): symbol for symbol in option_symbols}
         probe_fut = pool.submit(probe_sentiment)
         for fut in as_completed(price_futs):
             symbol = price_futs[fut]
@@ -208,7 +277,7 @@ def _download(store: ResearchStore, workers: int):
         except Exception as exc:
             store.note("sentiment", f"{type(exc).__name__}: {exc}")
             probe = {"attempts": [{"source": "sentiment probe", "result": f"{type(exc).__name__}: {exc}"}], "gdelt": None, "cnn": None, "equity_put_call": []}
-    return prices, splits, vols, indexes, probe
+    return prices, splits, vols, indexes, probe, coverage
 
 
 def _last_complete(prices: dict, indexes: dict) -> tuple[date, str]:
@@ -255,8 +324,8 @@ def _run_underlying(frames: dict[str, list[dict]], overrides: dict | None):
     return trades, skips
 
 
-def _run_options(frames, split_dates, underlying, store, workers, premium_fn, last_complete):
-    symbols = [symbol for symbol in OPTION_SYMBOLS if symbol in frames]
+def _run_options(frames, split_dates, underlying, store, workers, premium_fn, last_complete, option_symbols):
+    symbols = [symbol for symbol in option_symbols if symbol in frames]
 
     def work(symbol: str):
         try:
@@ -298,9 +367,9 @@ def _run_options(frames, split_dates, underlying, store, workers, premium_fn, la
     return trades, skips, unmarked
 
 
-def _vrp_rows(frames, indexes, last_complete) -> list[dict]:
+def _vrp_rows(frames, indexes, last_complete, option_symbols) -> list[dict]:
     rows: list[dict] = []
-    for symbol in OPTION_SYMBOLS:
+    for symbol in option_symbols:
         records = frames.get(symbol)
         if not records:
             continue
@@ -337,7 +406,7 @@ def _vrp_rows(frames, indexes, last_complete) -> list[dict]:
     return rows
 
 
-def _apply_sentiment(probe, frames, split_dates, store, workers, last_complete) -> dict:
+def _apply_sentiment(probe, frames, split_dates, store, workers, last_complete, option_symbols) -> dict:
     chosen = _choose_sentiment(probe, _spy_days(frames, last_complete))
     if chosen is None or not frames:
         return {"applied": False, "trades": []}
@@ -350,7 +419,7 @@ def _apply_sentiment(probe, frames, split_dates, store, workers, last_complete) 
     premium_fn = mask_side(premium_side, chosen["kind"], PREMIUM, scores, medians, deciles)
     underlying, _skips = _run_underlying(frames, overrides)
     options, _option_skips, _unmarked = _run_options(
-        frames, split_dates, underlying, store, workers, premium_fn, last_complete
+        frames, split_dates, underlying, store, workers, premium_fn, last_complete, option_symbols
     )
     tagged = _retag(underlying, "underlying_proxy_sentiment_filter") + _retag(options, "direct_option_sentiment_filter")
     return {
@@ -418,6 +487,95 @@ def _retag(trades: list[dict], result_type: str) -> list[dict]:
     return tagged
 
 
+def _label_counts(records: list[dict], last_complete: date, field: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in records:
+        if row["date"] < STUDY_START or row["date"] > last_complete:
+            continue
+        label = str(row.get(field) or "unknown")
+        counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
+def _events(frames: dict[str, list[dict]], last_complete: date):
+    specs = (
+        (TREND, trend_side, TREND_HOLD),
+        (MEAN_REVERSION, mean_reversion_side, MR_HOLD),
+        (BREAKOUT, breakout_side, BREAKOUT_HOLD),
+        (PREMIUM, premium_side, PREMIUM_HOLD),
+    )
+    rows: list[dict] = []
+    summaries: list[dict] = []
+    for symbol, records in frames.items():
+        for name, side_fn, horizon in specs:
+            for overlap in ("non_overlapping", "overlapping"):
+                windows = signal_windows(
+                    records,
+                    side_fn,
+                    horizon,
+                    STUDY_START,
+                    last_complete,
+                    overlap=overlap,
+                )
+                for window in windows:
+                    rows.append({"symbol": symbol, "strategy": name, "horizon": horizon, **window})
+                summary = summarize_windows(windows)
+                if overlap == "overlapping":
+                    summary["evidence"] = "overlapping"
+                    summary["note"] = (
+                        "These windows share sessions. The mean is descriptive and is not a significance test."
+                    )
+                    summary["ci95_low"] = None
+                    summary["ci95_high"] = None
+                summaries.append(
+                    {
+                        "symbol": symbol,
+                        "strategy": name,
+                        "horizon": horizon,
+                        "overlap": overlap,
+                        **summary,
+                    }
+                )
+    return rows, summaries
+
+
+def _by_symbol(trades: list[dict]) -> list[dict]:
+    keys = {(trade["symbol"], trade["result_type"], trade["strategy"]) for trade in trades}
+    rows = []
+    for symbol, result_type, strategy in sorted(keys, key=lambda item: (item[0], item[1], _ORDER.get(item[2], 9))):
+        subset = [
+            trade
+            for trade in trades
+            if trade["symbol"] == symbol and trade["result_type"] == result_type and trade["strategy"] == strategy
+        ]
+        rows.append({"symbol": symbol, "result_type": result_type, "strategy": strategy, **summarize(subset)})
+    return rows
+
+
+def _coverage_notes(coverage: dict) -> list[str]:
+    notes = []
+    for symbol, info in sorted(coverage.items()):
+        if info.get("error"):
+            notes.append(
+                f"{symbol} option history could not be confirmed ({info['error']}). No listed vertical was priced."
+            )
+            continue
+        if info.get("vol_rows") == 0:
+            chain = info.get("chain_rows")
+            chain_day = info.get("chain_date")
+            if info.get("chain_error"):
+                chain_text = f"A chain count for {chain_day} failed ({info['chain_error']})."
+            elif chain == 0:
+                chain_text = f"option_chain on {chain_day} also returned 0 rows."
+            else:
+                chain_text = "No chain count was stored."
+            notes.append(
+                f"{symbol} has 0 rows in DoltHub volatility_history. {chain_text} "
+                "Listed verticals were not backtested. The stock rules and the close-to-close drift are what ran."
+            )
+    return notes
+
+
 def _summaries(trades: list[dict]) -> list[dict]:
     keys = {(trade["result_type"], trade["strategy"]) for trade in trades}
     rows = []
@@ -458,7 +616,7 @@ def _count(skips: list[dict]) -> dict:
     return dict(sorted(counts.items(), key=lambda item: (-item[1], item[0])))
 
 
-def _backdrop(frames, indexes, diagnostics, last_complete, session_rule, prices) -> dict:
+def _backdrop(frames, indexes, diagnostics, last_complete, session_rule, prices, price_symbols, option_symbols) -> dict:
     spy_records = frames.get("SPY") or []
     study = [row for row in spy_records if STUDY_START <= row["date"] <= last_complete]
     spy = {}
@@ -514,8 +672,8 @@ def _backdrop(frames, indexes, diagnostics, last_complete, session_rule, prices)
         "iv_vix_corr": corr,
         "iv_vix_mean_diff": mean_diff,
         "priced_symbols": priced,
-        "missing_price_symbols": [symbol for symbol in PRICE_SYMBOLS if symbol not in frames],
-        "option_symbols": [symbol for symbol in OPTION_SYMBOLS if symbol in frames],
+        "missing_price_symbols": [symbol for symbol in price_symbols if symbol not in frames],
+        "option_symbols": [symbol for symbol in option_symbols if symbol in frames],
         "splits": split_rows,
         "reference_equity": EQUITY0,
         "dropped_price_dates": sorted(
@@ -612,7 +770,16 @@ def _write_outputs(output: Path, result: dict) -> None:
         writer.writeheader()
         for row in result["scan"]:
             writer.writerow({field: _cell(row.get(field)) for field in scan_fields})
-    payload = {key: value for key, value in result.items() if key not in ("trades", "vrp_rows")}
+    event_fields = [
+        "symbol", "strategy", "horizon", "overlap", "signal_date", "end_date", "side",
+        "raw_return", "signed_return", "trend_regime", "vol_regime",
+    ]
+    with (output / "events.csv").open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=event_fields, extrasaction="ignore")
+        writer.writeheader()
+        for row in result.get("event_rows") or []:
+            writer.writerow({field: _cell(row.get(field)) for field in event_fields})
+    payload = {key: value for key, value in result.items() if key not in ("trades", "vrp_rows", "event_rows")}
     (output / "stats.json").write_text(json.dumps(payload, indent=2, default=_json_default))
     (output / "scan.json").write_text(json.dumps(result["scan"], indent=2, default=_json_default))
     (output / "run_manifest.json").write_text(
