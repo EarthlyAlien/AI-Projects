@@ -1,4 +1,4 @@
-"""Report for the 1-2 session premium study. Numbers come only from that run."""
+"""Report for the 1-3 session premium study. Numbers come only from that run."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ cursor:
 def render_short(result: dict, *, frontmatter: bool = False) -> str:
     body = "\n".join(
         [
-            f"# SPY and NBIS premium selling for 1-2 sessions, {result['first_session']} through {result['last_complete']}",
+            f"# SPY and NBIS premium selling for 1-3 sessions, {result['first_session']} through {result['last_complete']}",
             "",
             _lead(result),
             "",
@@ -60,20 +60,26 @@ def _lead(result: dict) -> str:
         "",
         (
             "The ranking below therefore uses two lower tiers of evidence: the few marked SPY verticals, and "
-            "what SPY and NBIS themselves did in the 1-2 sessions after the same signals (signed drift, worst "
+            "what SPY and NBIS themselves did in the 1-3 sessions after the same signals (signed drift, worst "
             "adverse move versus the expected move at the signal). The second tier is a risk proxy for selling "
             "a defined-risk vertical. It is not option P&L, and for NBIS there is no historical option test at all."
         ),
     ]
     large = [row for row in result["window_summaries"] if row["n"] >= 30]
     if large:
-        row = large[0]
+        held3 = [row for row in large if row.get("horizon") == 3]
+        row = held3[0] if held3 else large[0]
+        shorter = ""
+        if row.get("horizon") == 3:
+            shorter = "The 1- and 2-session rows for that same family are in the table. "
         lines.append("")
         lines.append(
-            f"The only family with at least 30 windows is {row['symbol']} {row['family']}: "
+            f"The only family with at least 30 windows is {row['symbol']} {row['family']}, "
+            f"held {row['horizon']} sessions: "
             f"n={row['n']}, mean signed underlying return {_p(row.get('mean_signed_return'))}, "
             f"win rate {_p(row.get('win_rate'))}, adverse intraday move beyond the expected move in "
             f"{_p(row.get('breach_intra_rate'))} of windows. That is not a friendly premium-selling profile. "
+            f"{shorter}"
             "The friendlier patterns in the table have 5-20 windows and are descriptive only."
         )
     current = result.get("current_signals") or []
@@ -172,7 +178,7 @@ def _ranking(result: dict) -> str:
     lines.append(
         "What this means in trade terms: the structure worth paper-testing first is a defined-risk credit "
         "vertical after a mean-reversion stretch (sell the put vertical on a bullish stretch, the call "
-        "vertical on a bearish one), sized at the same 1% defined risk, closed at the 1-2 session mark or at "
+        "vertical on a bearish one), sized at the same 1% defined risk, closed by the third session or at "
         "half the credit, whichever comes first. High-IV selling without a stretch had the largest sample and "
         "the weakest drift in this table. Anything on NBIS is unpriced historically, so it cannot rank as a "
         "tested strategy."
@@ -246,7 +252,7 @@ def _nbis(result: dict) -> str:
             f"the snapshot above come from a read-only broker quote feed fetched for this report. They describe "
             f"{today}. They cannot backtest anything.",
             "",
-            "So the honest NBIS answer is narrower: the stock's own 1-2 session behavior after stretch and "
+            "So the honest NBIS answer is narrower: the stock's own 1-3 session behavior after stretch and "
             "trend signals is in the proxy table, and its realized vol over the study year was about 109% with "
             "a 58% max drawdown in the earlier pair study. Premium on NBIS is large because the moves are large. "
             "Until a historical NBIS chain is available, any NBIS premium structure is an untested candidate "

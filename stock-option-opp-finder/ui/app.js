@@ -1,6 +1,7 @@
 "use strict";
 
 const SYMBOLS = ["SPY", "NBIS"];
+const HOLD_DAYS = 3;
 const NAMES = { SPY: "SPY — the whole US stock market", NBIS: "NBIS — Nebius, one fast-moving stock" };
 const FAMILY_LABEL = { mr_fade: "After a big, fast move", high_iv: "When options are pricey", trend_aligned: "With the trend" };
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -52,8 +53,19 @@ function closeByDate(todayIso, tradingDays) {
   return WEEKDAYS[day.getUTCDay()] + ", " + MONTHS[day.getUTCMonth()] + " " + day.getUTCDate();
 }
 
-function patternHistory(symbol) {
-  return (DATA.window_summaries || []).find((row) => row.symbol === symbol && row.family === "mr_fade" && row.horizon === 2);
+function patternWindows(symbol) {
+  return (DATA.windows || [])
+    .filter((row) => row.symbol === symbol && row.family === "mr_fade" && row.horizon === HOLD_DAYS)
+    .slice()
+    .sort((a, b) => (a.signal_date < b.signal_date ? -1 : 1));
+}
+
+function helpedCount(rows) {
+  return rows.filter((row) => row.signed_return > 0).length;
+}
+
+function tooFew(count) {
+  return count < 30 ? " Too few times to call this a real edge." : "";
 }
 
 // ---------- The 30-second answer ----------
@@ -88,7 +100,7 @@ function ticketHtml(result, open) {
     '<div class="money"><div class="in"><b>+' + money(trade.max_profit) + '</b><span>you get paid now</span></div>' +
     '<div class="worst"><b>−' + money(trade.max_loss) + '</b><span>worst case</span></div>' +
     '<div class="line"><b>$' + num(trade.breakeven) + "</b><span>" + (trade.right === "PUT" ? "safe above this" : "safe below this") + "</span></div></div>" +
-    '<p class="exit"><b>Get out:</b> close by <b>' + closeByDate(result.today, 2) + "</b>, or sooner as soon as you can buy the spread back for <b>$" +
+    '<p class="exit"><b>Get out:</b> hold the next 3 trading days and close by <b>' + closeByDate(result.today, HOLD_DAYS) + "</b>, or sooner as soon as you can buy the spread back for <b>$" +
     num(trade.take_profit_debit) + "</b> (half the money is then yours).</p>" +
     '<p class="warn">' + loseIf + ". Practice this in your broker's paper-trading mode before using real money.</p></div>";
   if (open) return body;
@@ -118,10 +130,10 @@ function renderAnswer(symbol, result, savedAt) {
   }
   const head = headline(result);
   const change = result.change_pct === null || result.change_pct === undefined ? "" : " (" + (result.change_pct >= 0 ? "+" : "") + num(result.change_pct, 1) + "% today)";
-  const history = patternHistory(symbol);
-  const historyLine = history && history.n
-    ? "Last year this pattern showed up on " + history.n + " days for " + symbol + "; the stock moved the seller's way " +
-      Math.round(history.win_rate * history.n) + " of those " + history.n + " times."
+  const past = patternWindows(symbol);
+  const historyLine = past.length
+    ? "Last year this showed up " + past.length + " times. Over the next 3 trading days the stock moved the seller's way " +
+      helpedCount(past) + " of those " + past.length + " times." + tooFew(past.length)
     : "";
   card.className = "answer " + result.light;
   card.innerHTML =
@@ -159,11 +171,65 @@ async function loadAnswers() {
 }
 
 function renderProof() {
-  const spy = patternHistory("SPY") || {};
-  const nbis = patternHistory("NBIS") || {};
+  const line = (symbol) => {
+    const rows = patternWindows(symbol);
+    return symbol + " " + helpedCount(rows) + " of " + rows.length;
+  };
   document.getElementById("proof").innerHTML =
-    "<b>Is this proven? No.</b> Last year the pattern showed up on " + (spy.n || 0) + " days for SPY and " + (nbis.n || 0) +
-    " for NBIS. That is too few to be sure it works. Use paper money until you have watched it work yourself.";
+    "<b>Is this proven? No.</b> Over the next 3 trading days the stock moved the seller's way " +
+    line("SPY") + " times and " + line("NBIS") + " times. Both counts are too small to call this a real edge. " +
+    "The picture is the stock's move, because the option price on the way out was usually missing. " +
+    "Use paper money until you have watched it work yourself.";
+}
+
+function patternPicture(symbol) {
+  const series = (DATA.prices || {})[symbol] || [];
+  const marks = patternWindows(symbol);
+  const helped = helpedCount(marks);
+  const index = new Map(series.map((row, i) => [row.date, i]));
+  let chart = "<p class='hint'>No price history for this stock.</p>";
+  if (series.length > 1) {
+    const closes = series.map((row) => row.close);
+    const min = Math.min(...closes);
+    const max = Math.max(...closes);
+    const pad = (max - min) * 0.08 || 1;
+    const width = 480;
+    const height = 150;
+    const x = (i) => (i / (series.length - 1)) * (width - 16) + 8;
+    const y = (value) => height - 18 - ((value - (min - pad)) / (max - min + 2 * pad)) * (height - 32);
+    const points = series.map((row, i) => x(i).toFixed(1) + "," + y(row.close).toFixed(1)).join(" ");
+    const dots = marks.map((mark) => {
+      const i = index.get(mark.signal_date);
+      if (i === undefined) return "";
+      const up = mark.signed_return > 0;
+      const label = shortDate(mark.signal_date) + " to " + shortDate(mark.end_date) + ": " +
+        (up ? "stock moved the seller's way " : "stock moved against the seller ") + pct(Math.abs(mark.signed_return));
+      return '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(series[i].close).toFixed(1) +
+        '" r="5.5" fill="' + (up ? "#1e8449" : "#b03a2e") + '" stroke="#fff" stroke-width="1.5"><title>' +
+        esc(label) + "</title></circle>";
+    }).join("");
+    chart = '<svg viewBox="0 0 ' + width + " " + height + '" role="img" aria-label="' + esc(symbol) +
+      ' price over the past year. Dots mark days the pattern showed up.">' +
+      '<polyline fill="none" stroke="#95a5a6" stroke-width="1.6" points="' + points + '"/>' + dots +
+      '<text x="8" y="14" font-size="11" fill="#5d6d7e">' + esc(series[0].date) + " → " +
+      esc(series[series.length - 1].date) + "</text></svg>";
+  }
+  const chips = marks.map((mark) => {
+    const up = mark.signed_return > 0;
+    const move = (up ? "+" : "") + pct(mark.signed_return);
+    const label = shortDate(mark.signal_date) + " to " + shortDate(mark.end_date) + ", stock move the seller's way " + move;
+    return '<span class="chip ' + (up ? "yes" : "no") + '" title="' + esc(label) + '">' +
+      esc(shortDate(mark.signal_date) + " " + move) + "</span>";
+  }).join("");
+  const count = marks.length
+    ? "Moved the seller's way <b>" + helped + " of " + marks.length + "</b> times." + esc(tooFew(marks.length))
+    : "This pattern did not show up in the past year.";
+  return '<div><h3>' + esc(NAMES[symbol] || symbol) + "</h3>" + chart +
+    '<div class="chips">' + chips + '</div><p class="count">' + count + "</p></div>";
+}
+
+function renderPast() {
+  document.getElementById("pastCharts").innerHTML = SYMBOLS.map(patternPicture).join("");
 }
 
 // ---------- Optional tools ----------
@@ -241,7 +307,7 @@ function payoffChart(type, shortStrike, longStrike, credit, contracts) {
 }
 
 function renderVerdicts() {
-  const rows = (DATA.ranked_candidates || []).slice(0, 4);
+  const rows = (DATA.ranked_candidates || []).filter((row) => row.horizon === HOLD_DAYS).slice(0, 4);
   document.getElementById("verdicts").innerHTML = rows.map((row, index) => {
     const pill = row.n < 30 ? '<span class="pill small">' + row.n + " times · too few</span>" : '<span class="pill weak">' + row.n + " times</span>";
     return '<div class="verdict"><h3>' + (index + 1) + ". " + esc(row.symbol) + ": " + esc(FAMILY_LABEL[row.family] || row.family) +
@@ -251,8 +317,9 @@ function renderVerdicts() {
   }).join("");
   const direct = DATA.direct_summary || {};
   document.getElementById("directNote").textContent =
-    "We could check real option prices 1-2 days later only " + (direct.marked || 0) + " times out of " +
-    ((direct.marked || 0) + (direct.unmarked || 0)) + " tries, so these cards grade how the stock moved instead.";
+    "We could check real option prices on the way out only " + (direct.marked || 0) + " times out of " +
+    ((direct.marked || 0) + (direct.unmarked || 0)) +
+    " tries, so these cards grade how the stock moved over the next 3 trading days instead.";
 }
 
 function renderPrices(symbol) {
@@ -334,6 +401,7 @@ function preset(symbol) {
 
 async function boot() {
   DATA = await (await fetch("data.json")).json();
+  renderPast();
   renderProof();
   loadAnswers();
   renderVerdicts();

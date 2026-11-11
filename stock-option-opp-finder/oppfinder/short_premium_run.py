@@ -1,4 +1,4 @@
-"""Run the 1-2 session premium study for SPY and NBIS and write its outputs."""
+"""Run the 1-3 session premium study for SPY and NBIS and write its outputs."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ DTES = (("near", NEAR_DTE), ("monthly", MONTHLY_DTE))
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run the 1-2 session SPY/NBIS premium study.")
+    parser = argparse.ArgumentParser(description="Run the 1-3 session SPY/NBIS premium study.")
     parser.add_argument("--output", type=Path, default=Path("output/spy-nbis-short"))
     parser.add_argument("--findings", type=Path, default=None)
     parser.add_argument("--refresh", action="store_true")
@@ -117,7 +117,7 @@ def execute(store: ResearchStore, root: Path) -> dict:
     window_summaries: list[dict] = []
     for symbol, records in frames.items():
         for family in FAMILIES:
-            for horizon in (1, 2):
+            for horizon in (1, 2, 3):
                 windows = premium_windows(records, symbol, family, horizon, STUDY_START, last_complete)
                 window_rows.extend(windows)
                 window_summaries.append(

@@ -34,7 +34,7 @@ python3 -m oppfinder.short_premium_run
 
 ## Visual UI
 
-A beginner page lives in `ui/`. It gives one answer per stock: green (trade, practice first), yellow (wait), or red (skip today), with the exact two-leg order, the money collected, the worst case, and when to close.
+A beginner page lives in `ui/`. It gives one answer per stock: green (trade, practice first), yellow (wait), or red (skip today), with the exact two-leg order, the money collected, the worst case, and a close within the next 3 trading days. Under the answers, a chart marks each day last year the tested pattern showed up and whether the stock moved the seller's way over the following 3 sessions. A sample under 30 is labeled too few to call an edge. The picture is the stock's move: historical option prices on the way out were usually missing, so those dots are not option profit.
 
 The answer comes from `ui/api/market.mjs`, a server route that reads CBOE's free delayed option chain and daily history (the browser cannot read CBOE directly). Green needs the tested stretch pattern on the last finished trading day plus every safety check. The stretch math in `ui/core/market.mjs` is checked against the Python backtest by `tests/test_js_parity.py`.
 
