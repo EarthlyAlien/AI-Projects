@@ -26,6 +26,12 @@ python3 -m oppfinder --symbols SPY,NBIS --output output/spy-nbis
 
 NBIS is included only when that command is used. If the free option dataset has no rows for a symbol, the run says so and prices the stock rules only.
 
+The 1-2 session premium study is a separate entrypoint. It marks SPY credit verticals at the exact next end-of-day chain, and reports how often that quote is simply absent:
+
+```bash
+python3 -m oppfinder.short_premium_run
+```
+
 ## What it tests
 
 Universe: SPY, QQQ, IWM, AAPL, MSFT, NVDA, AMZN, META, GOOGL, TSLA, AMD, plus AVGO, NFLX, JPM, and AMAT because those four are liquid option underlyings and the free chain history actually contains them.

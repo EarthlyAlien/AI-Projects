@@ -1,0 +1,6 @@
+result_type,strategy,family,symbol,side,status,signal_date,entry_date,exit_date,exit_reason,structure,expiration,long_strike,short_strike,premium,width,contracts,max_loss,risk_dollars,commissions,pnl,r_multiple,underlying_return
+direct_option_short,high_iv_hold1,high_iv,SPY,short,closed,2026-07-23,2026-07-24,2026-07-27,time,credit_call,2026-08-07,754.00,746.00,3.06,8.00,2,4.94,988.0,5.2,-11.2,-0.011336032388663967,0.0002165755636849287
+direct_option_short,high_iv_hold1,high_iv,SPY,short,closed,2025-11-21,2025-11-24,2025-11-25,time,credit_call,2026-01-02,695.00,689.00,1.72,6.00,2,4.28,856.0,5.2,-89.2,-0.10420560747663551,0.009405947461920139
+direct_option_short,high_iv_hold1,high_iv,SPY,long,closed,2026-04-27,2026-04-28,2026-04-29,time,credit_put,2026-06-05,690.00,697.00,1.43,7.00,1,5.57,557.0,2.6,-17.6,-0.03159784560143627,-0.00015454109399481997
+direct_option_short,high_iv_hold2,high_iv,SPY,long,closed,2026-04-27,2026-04-28,2026-04-30,time,credit_put,2026-06-05,690.00,697.00,1.43,7.00,1,5.57,557.0,2.6,-10.6,-0.01903052064631957,0.009793548706901856
+direct_option_short,high_iv_pt50_by_day2,high_iv,SPY,long,closed,2026-04-27,2026-04-28,2026-04-30,time,credit_put,2026-06-05,690.00,697.00,1.43,7.00,1,5.57,557.0,2.6,-10.6,-0.01903052064631957,0.009793548706901856
