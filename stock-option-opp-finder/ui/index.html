@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premium Finder — SPY &amp; NBIS</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <h1>Premium Finder</h1>
+  <p class="sub">One look tells you if the next <b>3 trading days</b> are a time to sell a <b>protected option spread</b> on SPY or NBIS.</p>
+  <p class="legend">
+    <span><i class="dot green"></i>Green = trade (practice first)</span>
+    <span><i class="dot yellow"></i>Yellow = wait</span>
+    <span><i class="dot red"></i>Red = skip today</span>
+  </p>
+</header>
+
+<main>
+  <section class="answers">
+    <article class="answer" id="card-SPY"><p class="hint">Checking SPY…</p></article>
+    <article class="answer" id="card-NBIS"><p class="hint">Checking NBIS…</p></article>
+  </section>
+
+  <section class="card plain">
+    <h2>When this showed up last year</h2>
+    <p class="hint">Each dot is a day the tested pattern showed up. Green means the stock moved the seller's way over the next 3 trading days. Red means it did not. The dates under the line are those same days, with the stock's move. Some days sit close together, so they are not separate tests. This picture is the stock's move, because the option price on the way out was usually missing.</p>
+    <div id="pastCharts" class="past"></div>
+  </section>
+
+  <section class="card plain">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>Wait</b> for a big, fast move in the stock.</li>
+      <li><b>Sell</b> a protected spread that bets the move calms down. You get paid right away.</li>
+      <li><b>Close</b> within the next 3 trading days, or sooner once half the money is safe.</li>
+    </ol>
+    <p id="proof" class="proof"></p>
+  </section>
+
+  <details class="card">
+    <summary>More charts and tools (optional)</summary>
+
+    <h2>What happened over the next 3 trading days</h2>
+    <p class="hint">Each card is one pattern, held 3 trading days. "Times" is how often it showed up. Under 30 times is too few to call an edge.</p>
+    <div id="verdicts" class="grid"></div>
+    <p id="directNote" class="note"></p>
+
+    <h2>The year for each stock</h2>
+    <div class="row">
+      <button class="toggle" data-symbol="SPY">SPY</button>
+      <button class="toggle" data-symbol="NBIS">NBIS</button>
+      <span id="pathStats" class="hint"></span>
+    </div>
+    <div id="priceChart"></div>
+
+    <h2>Look at one pattern closely</h2>
+    <p class="hint">Green bars: times the stock helped a seller. Red bars: times it hurt.</p>
+    <div class="row controls">
+      <label>Stock <select id="exSymbol"><option>SPY</option><option>NBIS</option></select></label>
+      <label>Pattern
+        <select id="exFamily">
+          <option value="mr_fade">After a big, fast move</option>
+          <option value="high_iv">When options are pricey</option>
+          <option value="trend_aligned">With the trend</option>
+        </select>
+      </label>
+      <label>Days held <select id="exHorizon"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select></label>
+    </div>
+    <div id="exStats" class="stats"></div>
+    <div id="exHist"></div>
+    <div id="exTable"></div>
+
+    <h2>Try a spread on paper</h2>
+    <p class="hint">Change the numbers and watch the most you can make and lose.</p>
+    <div class="row controls">
+      <button class="toggle" id="presetSpy">SPY example</button>
+      <button class="toggle" id="presetNbis">NBIS example</button>
+    </div>
+    <div class="row controls">
+      <label>Kind
+        <select id="pfType"><option value="put">Put spread (stock stays up)</option><option value="call">Call spread (stock stays down)</option></select>
+      </label>
+      <label>Sell strike <input id="pfShort" type="number" step="0.5" value="750"></label>
+      <label>Buy strike <input id="pfLong" type="number" step="0.5" value="745"></label>
+      <label>Money in <input id="pfCredit" type="number" step="0.05" value="1.02"></label>
+      <label>Spreads <input id="pfContracts" type="number" step="1" min="1" value="1"></label>
+    </div>
+    <div id="pfStats" class="stats"></div>
+    <div id="pfChart"></div>
+
+    <h2>Why the old tests have so few real option trades</h2>
+    <p class="hint">The free price history only keeps some option prices each day. When the exact option had no price the next day, we refused to guess.</p>
+    <div class="row controls">
+      <label>Pattern
+        <select id="varFamily"><option value="all">All</option><option value="high_iv">Options pricey</option><option value="mr_fade">After a big move</option><option value="trend_aligned">With the trend</option></select>
+      </label>
+    </div>
+    <div id="varTable"></div>
+  </details>
+
+  <details class="card">
+    <summary>Words explained</summary>
+    <dl class="glossary">
+      <dt>Option</dt><dd>A contract someone buys for protection or a bet. You can sell it to them and keep what they pay.</dd>
+      <dt>Spread</dt><dd>Sell one option and buy a cheaper one next to it. The one you buy caps your worst loss.</dd>
+      <dt>Put spread</dt><dd>You win if the stock does not fall below your sold price.</dd>
+      <dt>Call spread</dt><dd>You win if the stock does not rise above your sold price.</dd>
+      <dt>Strike</dt><dd>The price written on the option.</dd>
+      <dt>Expiry</dt><dd>The last day the option exists. We close long before it.</dd>
+      <dt>Limit price / credit</dt><dd>The least money you accept to open the spread. Your broker will not fill it for less.</dd>
+      <dt>Paper trading</dt><dd>Practice trading with fake money in your broker's simulator.</dd>
+    </dl>
+  </details>
+</main>
+
+<footer>Live prices: CBOE, about 15 minutes delayed. Past tests: one year of SPY and NBIS. Study tool, not financial advice.</footer>
+<script src="app.js"></script>
+</body>
+</html>

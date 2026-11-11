@@ -1,0 +1,22 @@
+{
+  "as_of_utc": "2026-11-11T16:02:46Z",
+  "source": "Robinhood read-only market quotes fetched 2026-11-11. Current snapshot only; not a backtest fill.",
+  "underlyings": [
+    {"symbol": "SPY", "last": 758.22, "previous_close": 749.92, "previous_close_date": "2026-11-10"},
+    {"symbol": "NBIS", "last": 156.67, "previous_close": 134.0, "previous_close_date": "2026-11-10"}
+  ],
+  "first_expirations": {
+    "SPY": ["2026-11-11", "2026-11-12", "2026-11-13", "2026-11-16", "2026-11-17"],
+    "NBIS": ["2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11"]
+  },
+  "put_quotes": [
+    {"symbol": "SPY", "expiration": "2026-11-13", "strike": 755.0, "bid": 2.12, "ask": 2.14, "iv": 0.1547, "delta": -0.3457, "open_interest": 9753, "volume": 8951},
+    {"symbol": "SPY", "expiration": "2026-11-13", "strike": 750.0, "bid": 1.10, "ask": 1.11, "iv": 0.1717, "delta": -0.1960, "open_interest": 9733, "volume": 9334},
+    {"symbol": "SPY", "expiration": "2026-11-13", "strike": 745.0, "bid": 0.58, "ask": 0.59, "iv": 0.1892, "delta": -0.1089, "open_interest": 29537, "volume": 6147},
+    {"symbol": "SPY", "expiration": "2026-11-13", "strike": 740.0, "bid": 0.31, "ask": 0.32, "iv": 0.2062, "delta": -0.0604, "open_interest": 22893, "volume": 4387},
+    {"symbol": "NBIS", "expiration": "2026-11-13", "strike": 155.0, "bid": 9.10, "ask": 9.25, "iv": 2.0797, "delta": -0.4398, "open_interest": 539, "volume": 687},
+    {"symbol": "NBIS", "expiration": "2026-11-13", "strike": 150.0, "bid": 6.85, "ask": 6.95, "iv": 2.0882, "delta": -0.3619, "open_interest": 1379, "volume": 1507},
+    {"symbol": "NBIS", "expiration": "2026-11-13", "strike": 145.0, "bid": 4.95, "ask": 5.05, "iv": 2.0934, "delta": -0.2874, "open_interest": 821, "volume": 368},
+    {"symbol": "NBIS", "expiration": "2026-11-13", "strike": 140.0, "bid": 3.45, "ask": 3.55, "iv": 2.1029, "delta": -0.2195, "open_interest": 1075, "volume": 1245}
+  ]
+}

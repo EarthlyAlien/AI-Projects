@@ -1,0 +1,135 @@
+{
+ "saved_at": "2026-11-11T16:50:30.797Z",
+ "symbols": {
+  "SPY": {
+   "source": "saved",
+   "symbol": "SPY",
+   "timestamp": "2026-11-11 16:50:10",
+   "today": "2026-11-11",
+   "price": 758.77,
+   "change_pct": 1.1801,
+   "iv30_pct": 13.997,
+   "last_day": {
+    "date": "2026-11-10",
+    "close": 749.92,
+    "sma20": 760.6885,
+    "sma200": 730.9858000000005,
+    "std20": 11.603359892267138,
+    "lower_band": 737.4817802154657,
+    "upper_band": 783.8952197845342,
+    "rsi2": 58.55398505222438,
+    "rv20": 0.22270158381642657
+   },
+   "stretch": 0,
+   "direction": "PUT",
+   "dte": 14,
+   "trade": {
+    "right": "PUT",
+    "expiry": "2026-11-25",
+    "short_strike": 750,
+    "long_strike": 745,
+    "short_bid": 4.8,
+    "long_ask": 3.74,
+    "short_delta": -0.3266,
+    "credit": 1.06,
+    "width": 5,
+    "max_profit": 106,
+    "max_loss": 394,
+    "breakeven": 748.94,
+    "take_profit_debit": 0.53
+   },
+   "checks": [
+    {
+     "id": "stretch",
+     "label": "Did the stock just make a big, fast move?",
+     "pass": false,
+     "detail": "No. The last finished day was a normal day, so the pattern we tested is not here."
+    },
+    {
+     "id": "expensive",
+     "label": "Are options paying more than usual?",
+     "pass": false,
+     "detail": "Options are priced for about 14% movement a year. The stock really moved at about 22% lately. So you are not being paid extra."
+    },
+    {
+     "id": "risk",
+     "label": "Is the worst case small and known?",
+     "pass": true,
+     "detail": "Worst case is $394 for one spread. Only trade if losing that would not hurt you."
+    },
+    {
+     "id": "distance",
+     "label": "Is the sold option far enough away?",
+     "pass": true,
+     "detail": "About a 33% chance it ends up in trouble at expiry, if nothing is done. You close long before that."
+    }
+   ],
+   "light": "red"
+  },
+  "NBIS": {
+   "source": "saved",
+   "symbol": "NBIS",
+   "timestamp": "2026-11-11 16:49:14",
+   "today": "2026-11-11",
+   "price": 155.97,
+   "change_pct": 16.3955,
+   "iv30_pct": 102.045,
+   "last_day": {
+    "date": "2026-11-10",
+    "close": 134,
+    "sma20": 158.15649999999997,
+    "sma200": 178.82349999999994,
+    "std20": 19.096736363495257,
+    "lower_band": 119.96302727300946,
+    "upper_band": 196.34997272699047,
+    "rsi2": 43.69130542806376,
+    "rv20": 1.2470913590606765
+   },
+   "stretch": 0,
+   "direction": "CALL",
+   "dte": 16,
+   "trade": {
+    "right": "CALL",
+    "expiry": "2026-11-27",
+    "short_strike": 180,
+    "long_strike": 185,
+    "short_bid": 6.25,
+    "long_ask": 5.65,
+    "short_delta": 0.3132,
+    "credit": 0.6,
+    "width": 5,
+    "max_profit": 60,
+    "max_loss": 440,
+    "breakeven": 180.6,
+    "take_profit_debit": 0.3
+   },
+   "checks": [
+    {
+     "id": "stretch",
+     "label": "Did the stock just make a big, fast move?",
+     "pass": false,
+     "detail": "No. The last finished day was a normal day, so the pattern we tested is not here."
+    },
+    {
+     "id": "expensive",
+     "label": "Are options paying more than usual?",
+     "pass": false,
+     "detail": "Options are priced for about 102% movement a year. The stock really moved at about 125% lately. So you are not being paid extra."
+    },
+    {
+     "id": "risk",
+     "label": "Is the worst case small and known?",
+     "pass": true,
+     "detail": "Worst case is $440 for one spread. Only trade if losing that would not hurt you."
+    },
+    {
+     "id": "distance",
+     "label": "Is the sold option far enough away?",
+     "pass": true,
+     "detail": "About a 31% chance it ends up in trouble at expiry, if nothing is done. You close long before that."
+    }
+   ],
+   "light": "red"
+  }
+ }
+}

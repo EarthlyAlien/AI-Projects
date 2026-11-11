@@ -1,0 +1,322 @@
+{
+  "backdrop": {
+    "warmup_start": "2024-06-03",
+    "first_session": "2025-11-10",
+    "requested_end": "2026-11-10",
+    "last_complete": "2026-11-09",
+    "session_rule": "requested end 2026-11-10 VIX file ends 2026-11-09 SPY download ends 2026-11-10 study sessions run through 2026-11-09",
+    "spy": {
+      "start_date": "2025-11-10",
+      "end_date": "2026-11-09",
+      "start_close": 681.4400024414062,
+      "end_close": 752.6900024414062,
+      "return": 0.10455799445986647,
+      "sessions": 251,
+      "trend_counts": {
+        "uptrend": 238,
+        "range": 13
+      }
+    },
+    "vix": {
+      "start": 17.6,
+      "end": 19.92,
+      "max": 35.3,
+      "max_date": "2026-03-09",
+      "min": 13.38,
+      "min_date": "2025-12-24"
+    },
+    "iv_vix_n": 247,
+    "iv_vix_corr": 0.9849421991974945,
+    "iv_vix_mean_diff": -0.03129838056680162,
+    "priced_symbols": [
+      "SPY",
+      "QQQ",
+      "IWM",
+      "AAPL",
+      "MSFT",
+      "NVDA",
+      "AMZN",
+      "META",
+      "GOOGL",
+      "TSLA",
+      "AMD",
+      "AVGO",
+      "NFLX",
+      "JPM",
+      "AMAT"
+    ],
+    "missing_price_symbols": [],
+    "option_symbols": [
+      "SPY",
+      "AAPL",
+      "MSFT",
+      "NVDA",
+      "AMZN",
+      "META",
+      "GOOGL",
+      "TSLA",
+      "AMD",
+      "AVGO",
+      "NFLX",
+      "JPM",
+      "AMAT"
+    ],
+    "splits": [
+      {
+        "symbol": "NVDA",
+        "ex_date": "2024-06-10",
+        "numerator": 10.0,
+        "denominator": 1.0
+      },
+      {
+        "symbol": "AVGO",
+        "ex_date": "2024-07-15",
+        "numerator": 10.0,
+        "denominator": 1.0
+      },
+      {
+        "symbol": "NFLX",
+        "ex_date": "2025-11-17",
+        "numerator": 10.0,
+        "denominator": 1.0
+      }
+    ],
+    "reference_equity": 100000.0,
+    "dropped_price_dates": [
+      "2026-11-10"
+    ]
+  },
+  "chain_counts": {
+    "ok": 1306,
+    "empty": 22,
+    "error": 0,
+    "cache": 1303
+  },
+  "errors": [],
+  "skip_counts": {
+    "high_iv_premium|no_wing": 24,
+    "high_iv_premium|no_short_leg": 15,
+    "high_iv_premium|open_at_sample_end": 9,
+    "mean_reversion|no_wing": 7,
+    "trend_continuation|no_wing": 7,
+    "high_iv_premium|entry_chain_empty": 5,
+    "high_iv_premium|nonpositive_credit": 5,
+    "momentum_breakout|debit_too_wide": 5,
+    "momentum_breakout|underlying_not_closed": 5,
+    "mean_reversion|no_long_leg": 3,
+    "momentum_breakout|no_wing": 3,
+    "trend_continuation|underlying_not_closed": 3,
+    "momentum_breakout|no_long_leg": 2,
+    "momentum_breakout|same_session": 2,
+    "trend_continuation|entry_chain_empty": 2,
+    "trend_continuation|no_long_leg": 2,
+    "trend_continuation|same_session": 2,
+    "high_iv_premium|risk_budget": 1,
+    "mean_reversion|debit_too_wide": 1,
+    "mean_reversion|same_session": 1,
+    "momentum_breakout|entry_chain_empty": 1,
+    "momentum_breakout|no_max_profit": 1,
+    "trend_continuation|debit_too_wide": 1,
+    "trend_continuation|no_max_profit": 1
+  },
+  "diagnostics": [
+    {
+      "symbol": "SPY",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 583,
+      "iv_pct_study_days": 247,
+      "splits": []
+    },
+    {
+      "symbol": "QQQ",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 0,
+      "iv_pct_study_days": 0,
+      "splits": []
+    },
+    {
+      "symbol": "IWM",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 0,
+      "iv_pct_study_days": 0,
+      "splits": []
+    },
+    {
+      "symbol": "AAPL",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 562,
+      "iv_pct_study_days": 246,
+      "splits": []
+    },
+    {
+      "symbol": "MSFT",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 581,
+      "iv_pct_study_days": 245,
+      "splits": []
+    },
+    {
+      "symbol": "NVDA",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 582,
+      "iv_pct_study_days": 246,
+      "splits": [
+        {
+          "symbol": "NVDA",
+          "ex_date": "2024-06-10",
+          "numerator": 10.0,
+          "denominator": 1.0
+        }
+      ]
+    },
+    {
+      "symbol": "AMZN",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 580,
+      "iv_pct_study_days": 246,
+      "splits": []
+    },
+    {
+      "symbol": "META",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 581,
+      "iv_pct_study_days": 246,
+      "splits": []
+    },
+    {
+      "symbol": "GOOGL",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 583,
+      "iv_pct_study_days": 247,
+      "splits": []
+    },
+    {
+      "symbol": "TSLA",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 583,
+      "iv_pct_study_days": 247,
+      "splits": []
+    },
+    {
+      "symbol": "AMD",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 579,
+      "iv_pct_study_days": 246,
+      "splits": []
+    },
+    {
+      "symbol": "AVGO",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 580,
+      "iv_pct_study_days": 246,
+      "splits": [
+        {
+          "symbol": "AVGO",
+          "ex_date": "2024-07-15",
+          "numerator": 10.0,
+          "denominator": 1.0
+        }
+      ]
+    },
+    {
+      "symbol": "NFLX",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 581,
+      "iv_pct_study_days": 245,
+      "splits": [
+        {
+          "symbol": "NFLX",
+          "ex_date": "2025-11-17",
+          "numerator": 10.0,
+          "denominator": 1.0
+        }
+      ]
+    },
+    {
+      "symbol": "JPM",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 581,
+      "iv_pct_study_days": 246,
+      "splits": []
+    },
+    {
+      "symbol": "AMAT",
+      "bars": 612,
+      "first": "2024-06-03",
+      "last": "2026-11-09",
+      "study_days": 251,
+      "iv_points": 579,
+      "iv_pct_study_days": 246,
+      "splits": []
+    }
+  ],
+  "sentiment_attempts": [
+    {
+      "source": "GDELT DOC timelinetone",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22S%26P%20500%22&mode=timelinetone&format=json&startdatetime=20250601000000&enddatetime=20261111000000",
+      "result": "HTTP 429: Too Many Requests"
+    },
+    {
+      "source": "CNN Fear and Greed",
+      "url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata",
+      "result": "HTTP 418: Unknown Error"
+    },
+    {
+      "source": "CBOE equity put/call",
+      "url": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/equitypc.csv",
+      "result": "file downloaded; last date 2019-10-04. Not used unless that date reaches the study.",
+      "last_date": "2019-10-04",
+      "n": 3253
+    },
+    {
+      "source": "CBOE total put/call",
+      "url": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/totalpc.csv",
+      "result": "file downloaded; last date 2019-10-04. Not used unless that date reaches the study.",
+      "last_date": "2019-10-04",
+      "n": 3253
+    }
+  ],
+  "sentiment_applied": false
+}

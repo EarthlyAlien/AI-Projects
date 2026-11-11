@@ -1,0 +1,110 @@
+{
+  "backdrop": {
+    "warmup_start": "2024-06-03",
+    "first_session": "2025-11-10",
+    "requested_end": "2026-11-10",
+    "last_complete": "2026-11-10",
+    "session_rule": "requested end 2026-11-10 VIX file ends 2026-11-10 SPY download ends 2026-11-11 study sessions run through 2026-11-10",
+    "spy": {
+      "start_date": "2025-11-10",
+      "end_date": "2026-11-10",
+      "start_close": 681.4400024414062,
+      "end_close": 749.9199829101562,
+      "return": 0.10049304446966079,
+      "sessions": 252,
+      "trend_counts": {
+        "uptrend": 239,
+        "range": 13
+      }
+    },
+    "vix": {
+      "start": 17.6,
+      "end": 19.46,
+      "max": 35.3,
+      "max_date": "2026-03-09",
+      "min": 13.38,
+      "min_date": "2025-12-24"
+    },
+    "iv_vix_n": 248,
+    "iv_vix_corr": 0.9849187913810818,
+    "iv_vix_mean_diff": -0.03132096774193548,
+    "priced_symbols": [
+      "SPY",
+      "NBIS"
+    ],
+    "missing_price_symbols": [],
+    "option_symbols": [
+      "SPY"
+    ],
+    "splits": [],
+    "reference_equity": 100000.0,
+    "dropped_price_dates": [
+      "2026-11-11"
+    ]
+  },
+  "chain_counts": {
+    "ok": 150,
+    "empty": 0,
+    "error": 0,
+    "cache": 150
+  },
+  "errors": [
+    {
+      "source": "dolthub_vol",
+      "symbol": "NBIS",
+      "detail": "volatility_history returned 0 rows, so no listed vertical was backtested"
+    }
+  ],
+  "skip_counts": {
+    "high_iv_premium|open_at_sample_end": 1
+  },
+  "diagnostics": [
+    {
+      "symbol": "SPY",
+      "bars": 613,
+      "first": "2024-06-03",
+      "last": "2026-11-10",
+      "study_days": 252,
+      "iv_points": 584,
+      "iv_pct_study_days": 248,
+      "splits": []
+    },
+    {
+      "symbol": "NBIS",
+      "bars": 516,
+      "first": "2024-10-21",
+      "last": "2026-11-10",
+      "study_days": 252,
+      "iv_points": 0,
+      "iv_pct_study_days": 0,
+      "splits": []
+    }
+  ],
+  "sentiment_attempts": [
+    {
+      "source": "GDELT DOC timelinetone",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22S%26P%20500%22&mode=timelinetone&format=json&startdatetime=20250601000000&enddatetime=20261111000000",
+      "result": "HTTP 429: Too Many Requests"
+    },
+    {
+      "source": "CNN Fear and Greed",
+      "url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata",
+      "result": "HTTP 418: Unknown Error"
+    },
+    {
+      "source": "CBOE equity put/call",
+      "url": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/equitypc.csv",
+      "result": "file downloaded; last date 2019-10-04. Not used unless that date reaches the study.",
+      "last_date": "2019-10-04",
+      "n": 3253
+    },
+    {
+      "source": "CBOE total put/call",
+      "url": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/totalpc.csv",
+      "result": "file downloaded; last date 2019-10-04. Not used unless that date reaches the study.",
+      "last_date": "2019-10-04",
+      "n": 3253
+    }
+  ],
+  "sentiment_applied": false
+}
