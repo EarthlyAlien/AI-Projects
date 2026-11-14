@@ -244,9 +244,9 @@ Target length after animation: **~75–90 seconds**.
 
 ## Step 2 checklist (animation)
 
-- [ ] Single AI; bar chart = `Demo` (1/1) vs `Full eval` (8/20)
-- [ ] Rules card on checklist beat
-- [ ] `Fresh test` section + practice/fresh line chart
-- [ ] Title card and closing card both read `Why AI evals?`
-- [ ] Match `evals/NARRATION.md`
-- [ ] Re-render 1080p
+- [x] Single AI; bar chart = `Demo` (1/1) vs `Full eval` (8/20)
+- [x] Rules on the checklist beat
+- [x] Fresh test section + practice/fresh line chart
+- [x] Title card and closing card both read `Why AI evals?`
+- [x] Match `evals/NARRATION.md`
+- [x] Re-render 1080p

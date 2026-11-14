@@ -4,7 +4,7 @@ A short silent animation that asks **Why AI evals?** and answers it with one sup
 
 The **content script** (story, on-screen copy, chart numbers, terminology) is in [evals/VIDEO_CONTENT.md](evals/VIDEO_CONTENT.md). The voiceover is in [evals/NARRATION.md](evals/NARRATION.md), aligned to that script.
 
-The current animation is step 2 and may still use older labels until it is rebuilt against `VIDEO_CONTENT.md`.
+`evals/why_evals.py` follows that script: one support AI, title `Why AI evals?`, then the demo, the frozen checklist, the 1/1 versus 8/20 score, and the practice-versus-fresh chart.
 
 ## Render
 
