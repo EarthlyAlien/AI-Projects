@@ -1,18 +1,18 @@
-# Why AI evals matter — voiceover
+# Why AI evals? — voiceover
 
 Storyboard and chart copy: [VIDEO_CONTENT.md](VIDEO_CONTENT.md).
 
-This is about **why evals matter**, not comparing two products. One support AI the whole way through.
+Theme on screen: **Why AI evals?** One support AI. Each section is one answer to that question.
 
 ---
 
-## Title / hook
+## Ask the question
 
-Teams ship AI on demos. One answer looks perfect in the room. That is not measurement.
+Why AI evals?
 
-It does not tell you how the system does on a normal week, whether you are improving, or whether you are ready to roll out.
+Because a demo is one answer someone chose to show. An eval is a score on the whole job: a list you froze first, rules for pass and fail, and a count of passes.
 
-Evals exist for that: a fixed list of real situations, rules for pass and fail, and a score you can track.
+The rest of this is that answer, on one support assistant.
 
 ---
 
@@ -64,14 +64,12 @@ You can raise the practice number and still not get better on new customer mail.
 
 ---
 
-## Why evals matter — recap
+## The short answer
 
-Evals show what one good demo hid.
+So: why AI evals?
 
-They give you a number while you build.
+To see past one demo. To score the whole job. To tell real progress from memorizing the test.
 
-They separate memorizing the practice test from actually improving.
+Demo: one chosen example. Eval: a frozen list, written rules, and a score. Fresh test: tickets you keep aside while you fix.
 
-Demo: one chosen example. Eval: frozen list, rules, score. Fresh test: honest check while you fix.
-
-Without a frozen checklist and written rules, you only have demos.
+Without the list and the rules, you only have a demo.
