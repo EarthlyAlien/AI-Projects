@@ -13,7 +13,7 @@ camera:
   fps: 30
   background_opacity: 1.0
 text:
-  font: "Liberation Serif"
+  font: "Liberation Sans"
   alignment: "CENTER"
 tex:
   # "default" pulls in dsfont, physics, and the rest of Grant's full preamble.

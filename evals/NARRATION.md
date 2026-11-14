@@ -1,25 +1,27 @@
-# Why evals
+# Why AI evals matter
 
-A voiceover for `WhyEvals`. Read it at a walking pace. The picture is doing half the work, so leave the pauses where they are.
+Read this with the picture. The screen already says the terms. Do not race it.
 
-## A demo
+## Title
 
-Someone asks one hard question. A late shipment, a partial refund. The model answers the way the policy actually reads, and the room goes quiet. That answer can be right. What you have in front of you is still one case. On the screen it is one green dot, and the word under it is "demo."
+A demo is one answer. An eval is a score on work you fixed in advance.
 
-## Every other case
+## Demo
 
-Pull back. The week is not that question. It is the angry ticket, the vague one, the one in a second language, the one where the right move is to hand the customer to a person. Those are the dim dots around the one you applauded. A good answer on the question you happened to ask is one draw from that cloud.
+Here is the demo. A customer asks about a partial refund on a late shipment. The model says yes, and the policy does allow it. That answer is correct. It is still one case. Someone chose it, the room saw it, and the rest of the week was never opened.
 
-## A ruler
+## Case
 
-Freeze twenty real tickets before anyone starts fixing the system. Decide what "wrong" means in money, not in vibes. A refund the policy does not allow is wrong. A customer who should have reached a person, and did not, is wrong. Score two systems on those same twenty.
+A case is one real piece of the job. An angry third call. A tracking question in Spanish. A customer who should have reached a person. An order question with no order number. Write the list down before you look. On these five, the model is right twice and wrong three times. Five cases is a start. An eval is the whole list, fixed first.
 
-The one that won the room gets eight. The one that stumbled on the demo gets fifteen. The fraction on the screen is the whole idea: correct over N, on a set you agreed to in advance. "Better" is that comparison. It is no longer a feeling about a single answer.
+## Score
 
-## The set you tune, and the set you don't
+The score is correct cases divided by all cases. Same twenty cases. Same meaning of wrong. The system that won the demo gets 8 out of 20. The system that lost the demo gets 15 out of 20. The impressive answer picked the worse system.
 
-Keep repairing the system against those same twenty, and the count climbs. Eight becomes eighteen. That number learned the test. Off to the side, a second pile, written down at the start and never used for repairs, sits where it sat. That pile is the measurement. The pile you practiced on is no longer one.
+## Held-out set
 
-## The claim
+There is a second list. Nobody is allowed to practice on it. Over four weeks the team keeps fixing the system against the first list, and that score climbs from 8 to 18. The list they never touch stays near 9. The score you tune is no longer a measurement. The score you do not touch is.
 
-A demo is one sample. An evaluation is the work you did not tune, scored the way the job is actually scored. If the score and the expensive mistake are different things, the score will go up without the job getting better.
+## The three words
+
+A demo is one example, often the one picked to impress you. An eval is a fixed list of cases and a written meaning of wrong. A held-out set is the part of that list nobody is allowed to practice on. If the list was not fixed first, and wrong was never written down, you do not have an eval. You have a demo.

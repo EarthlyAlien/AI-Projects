@@ -2,11 +2,11 @@
 
 A short silent animation about why a good demo is not a measurement. The pictures are made with [ManimGL](https://github.com/3b1b/manim), the engine Grant Sanderson uses for 3Blue1Brown. The scene is original. It does not use code from [3b1b/videos](https://github.com/3b1b/videos).
 
-The voiceover is in [evals/NARRATION.md](evals/NARRATION.md). The frames follow it: one lit case, the cloud of cases around it, two scores on the same twenty, then the practiced score rising while a held-out set stays put.
+The voiceover is in [evals/NARRATION.md](evals/NARRATION.md). On screen, each term is written out, then shown: a demo ticket, a list of cases marked right or wrong, a bar chart of two scores on the same 20 cases, and a line chart of a tuned score against a held-out set.
 
 ## Render
 
-Python 3.10 or newer, [FFmpeg](https://ffmpeg.org/), Pango, and a LaTeX install (`texlive-latex-extra` and `dvisvgm` are enough for the one formula).
+Python 3.10 or newer, [FFmpeg](https://ffmpeg.org/), and Pango. This scene is drawn with text, so rendering it does not need LaTeX.
 
 ```sh
 python -m venv .venv
