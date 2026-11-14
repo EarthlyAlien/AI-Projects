@@ -2,11 +2,15 @@
 
 This file is the **source of truth** for the film. Step 2 is animating `evals/why_evals.py` to match this script. Step 3 is re-render and voiceover.
 
-**Audience:** someone who has seen an AI demo in a meeting and wants to know whether the product actually works.
+**What this video is for:** explain **why evals matter** when you build or ship AI — so you are not fooled by a good demo, you know how the system does on real work, and you can tell improvement from memorizing the test.
 
-**One story all the way through:** a support team picks between two AI assistants for customer email. The vendor demos one refund question. The buyer still needs a fair way to choose.
+**What this video is not:** a comparison between two tools or vendors. There is **one** support AI the whole time. The story is **demo → proper eval → honest improvement**.
 
-**Rule for language:** say what happened in plain words first, then use the term in bold once.
+**Audience:** a lead, PM, or engineer who has seen a glowing demo and needs to decide *“How do we actually know if this works?”*
+
+**Setting:** customer-email support for a shipping company. Same AI throughout.
+
+**Rule for language:** say what happened in plain words first, then use the term once in bold.
 
 ---
 
@@ -14,45 +18,45 @@ This file is the **source of truth** for the film. Step 2 is animating `evals/wh
 
 | Term | Say this on screen | Do not say |
 |------|-------------------|------------|
-| **Demo** | One example someone **chose to show you** | "Won the demo" as a product name |
-| **Test case** | One real situation the AI must handle | "Case" alone without context |
-| **Checklist** | The **fixed list** of test cases, written **before** anyone runs the AI | "Dataset" |
-| **Pass / Fail** | Right or wrong against **written rules** | "Correct / incorrect" only |
-| **Eval** | Run the **whole checklist** and **count passes** | "Benchmark" on first mention |
-| **Score** | Passes ÷ total on that checklist | Accuracy % (until after the fraction) |
-| **Practice list** | Tickets the team **uses while fixing** the AI | "Tuned set" on first mention |
-| **Fresh test** | Tickets **kept aside** — **no fixes** using these | "Held-out set" on first mention (add in parentheses once) |
+| **Demo** | One example someone **chose to show** | Tool A vs tool B |
+| **Test case** | One real situation the AI must handle | “Case” without context |
+| **Checklist** | The **fixed list** of test cases, frozen **before** testing | “Dataset” on first mention |
+| **Pass / Fail** | Meets **written rules** or not | Vibes, “seemed fine” |
+| **Eval** | Run the **whole checklist** and **count passes** | “Benchmark” first |
+| **Score** | Passes ÷ total tickets on that checklist | Lead with accuracy % |
+| **Practice list** | Tickets the team **uses while fixing** | “Training set” first |
+| **Fresh test** | Tickets **kept aside** — never used while fixing | “Held-out” first (add once in parentheses) |
 
 ---
 
 ## Story arc (six beats)
 
-1. **Hook** — One great answer is not proof.
-2. **Demo** — What a demo is.
-3. **Checklist** — From one ticket to many, with rules.
-4. **Score** — Same checklist, two products, count passes.
-5. **Practice vs fresh** — Fixing on the practice list stops measuring real skill.
-6. **Recap** — Demo vs eval vs fresh test.
+1. **Hook** — Demos feel like proof; they are not measurement.
+2. **Demo** — One ticket, one pass, looks like success.
+3. **Checklist** — Real eval: frozen list + written rules.
+4. **The gap** — Same AI: 1/1 on the demo vs 8/20 on the full eval.
+5. **Honest improvement** — Practice score rises; fresh test does not → why eval design matters.
+6. **Recap** — What evals give you (truth, progress, trust).
 
-Target length after animation: **~75–90 seconds** (longer holds than the 43s cut; read speed for business viewers).
+Target length after animation: **~75–90 seconds**.
 
 ---
 
 ## Beat 0 — Title / hook
 
-**On screen (large):**
+**On screen:**
 
 - Title: `Why AI evals matter`
-- Line 1: `A demo is one answer.`
-- Line 2: `An eval counts passes on a list you fixed first.`
+- Line 1: `A demo shows one answer.`
+- Line 2: `An eval measures the job.`
 
 **Narration:**
 
-> In a sales call you see one perfect answer. That is a demo. It is not proof the AI works on your real week of customer mail. An eval is different: you write the situations first, write what counts as wrong, run the AI on all of them, and count passes.
+> Teams ship AI on demos. One answer looks perfect in the room. That is not measurement. It does not tell you how the system does on a normal week, whether you are improving, or whether you are ready to roll out. Evals exist for that: a fixed list of real situations, rules for pass and fail, and a score you can track.
 
-**Visual:** Text only. No chart.
+**Visual:** Text only.
 
-**Hold:** ~4s on the two lines after they appear.
+**Hold:** ~4s.
 
 ---
 
@@ -60,124 +64,112 @@ Target length after animation: **~75–90 seconds** (longer holds than the 43s c
 
 **Section label:** `Demo`
 
-**Definition (on screen):**
+**Definition:**
 
 - `A demo is one example.`
-- `Usually the one the seller picked to show you.`
+- `Often the one someone picked to look good.`
 
-**Concrete example (card):**
+**Card:**
 
-- Customer message: `Can I get a partial refund? My box arrived two weeks late.`
-- AI reply: `Yes. Our policy allows a partial refund for late delivery.`
-- Badge: `Pass` (green) — against the written rule: *refund allowed for late delivery*
+- Customer: `Can I get a partial refund? My box arrived two weeks late.`
+- AI: `Yes. Our policy allows a partial refund for late delivery.`
+- Badge: `Pass`
 
 **Punch line (yellow):**
 
-- `Right on this message. Still only one message.`
+- `One ticket. One pass. Easy to mistake that for “it works.”`
 
 **Narration:**
 
-> Here is the demo. One customer email. The AI answers well. The policy really does allow that refund. Mark it pass. That is still a single test case. The vendor chose this email. You have not seen the other ninety-nine messages from a normal week.
-
-**Visual:** Ticket card + pass badge. No chart.
-
-**Intuition check:** Viewer should think: *“Okay, one good email isn’t enough.”*
+> Here is the demo. One email. The AI answers well. Mark it pass. Stakeholders nod. If you stop here, you only know how the AI did on **one** message someone selected. You do not know how it does on the rest of the job.
 
 ---
 
-## Beat 2 — Test case → checklist → eval setup
+## Beat 2 — Test cases, rules, checklist
 
-**Section label:** `Test case`
+**Section label:** `Eval`
 
 **Definition:**
 
-- `A test case is one situation the AI must handle.`
-- `An eval uses a checklist of test cases.`
+- `An eval = frozen checklist + written rules + pass count.`
+- `Write the list before you run the AI.`
 
-**Sub-beat 2a — Rules (small card above the list):**
+**Rules card:**
 
-- `Rules (written before testing):`
-  - `Wrong policy or made-up fact → Fail`
-  - `Must hand off to a human when the customer asks → Fail`
+- `Rules (frozen before testing):`
+  - `Wrong policy or invented fact → Fail`
+  - `Customer asks for a human → must hand off → Fail`
 
-**Checklist (five rows, stagger in):**
+**Five rows (sample of the full list):**
 
-| # | Customer situation | Result |
-|---|-------------------|--------|
-| 1 | Partial refund, package late (same as demo) | **Pass** |
-| 2 | Customer wants to cancel order; AI offers a refund instead | **Fail** |
-| 3 | “Where is my tracking?” — email in Spanish | **Pass** |
-| 4 | “I need a person.” Third angry email today. | **Fail** |
-| 5 | “Where is my order?” — no order number in the thread | **Fail** |
+| Customer situation | Result |
+|-------------------|--------|
+| Partial refund, late package (same as demo) | **Pass** |
+| Customer wanted to cancel; AI offered a refund | **Fail** |
+| Tracking question in Spanish | **Pass** |
+| “I need a person” — third angry email | **Fail** |
+| “Where is my order?” — no order number | **Fail** |
 
-**Footer:**
+**Footer:** `On these 5: 2 pass, 3 fail.`
 
-- `On these 5: 2 pass, 3 fail.`
-
-**Bridge line (before next beat):**
-
-- `Five tickets is a sample. A real eval uses the full checklist — here, 20 tickets — frozen before anyone runs the AI.`
+**Bridge:** `Full eval here: 20 tickets, same rules, list frozen before anyone runs the model.`
 
 **Narration:**
 
-> A test case is one slice of the job. Before you run the model, you freeze a checklist. You write what counts as fail. Partial refund on a late box: pass. Cancel mix-up: fail. Spanish tracking: pass. Human handoff ignored: fail. Order status with no order ID: fail. Two passes, three fails on five. A real eval runs the full list. Same rules. No adding tickets because the model failed.
-
-**Visual:** Rule card + five rows. No chart yet.
+> An eval starts before you click run. Freeze the checklist. Write what fail means. Same refund ticket: pass. Cancel confused with refund: fail. Spanish tracking: pass. No human when they asked: fail. Order status with no ID: fail. Two of five pass on this slice. The real eval runs twenty tickets like these — not one cherry-picked email.
 
 ---
 
-## Beat 3 — Score (bar chart)
+## Beat 3 — Why the demo misled you (bar chart)
 
 **Section label:** `Score`
 
 **Definition:**
 
-- `Score = passes ÷ all test cases on the checklist`
-- `Same 20 tickets. Same rules. Two products.`
+- `Score = passes ÷ tickets on the checklist`
+- `Same AI. Different size of test.`
 
-**Chart — bar chart**
+**Chart — two bars, one AI, same y-axis 0–20**
 
-- Y-axis label: `Passes (out of 20)`
-- Y ticks: `0`, `10`, `20`
-- Horizontal guide at 10 (optional, faint)
-
-| Bar position | Bar label (under axis) | Value on bar | Color role |
-|--------------|------------------------|--------------|------------|
-| Left | `Product from the demo` | `8 / 20` | Blue — the one they showed |
-| Right | `The other product` | `15 / 20` | Teal — not shown in the call |
+| Bar label (under axis) | Height (passes) | Label on bar | Meaning |
+|------------------------|-----------------|--------------|---------|
+| `Demo` | **1** | `1 / 1` | Only this ticket was tested |
+| `Full eval` | **8** | `8 / 20` | Whole frozen checklist |
 
 **Caption (yellow):**
 
-- `The product that looked better in the meeting scored lower on the full checklist.`
-
-**Why these labels:** “Won the demo” / “Lost the demo” sounds like sports and hides that both are measured on the **same** checklist. “Product from the demo” vs “The other product” states the comparison directly.
+- `One pass on one ticket is not “the AI works.” Eight passes on twenty is a measurement.`
 
 **Narration:**
 
-> Now the score. Twenty frozen tickets. Same pass/fail rules for both assistants. Count passes. The product they demoed: eight out of twenty. The other product: fifteen out of twenty. The one that wowed the room is weaker on the work you care about — because the room only saw one email.
+> Count passes. On the demo you effectively tested one ticket: one pass out of one. On the full eval, the **same** assistant gets eight passes out of twenty. The demo was not lying — that answer was fine. It was **incomplete**. Without the eval you would roll out on a highlight reel. With it you see the real gap.
 
-**Animation:** Axes fade in → bars grow from zero → values and labels → caption.
+**Intuition check:** No second product. Viewer sees *breadth of testing* as the lesson.
 
-**Intuition check:** Taller bar = more passes = better. No inverted logic.
+**Animation:** Grow both bars; hold on `1/1` vs `8/20`.
 
 ---
 
-## Beat 4 — Practice list vs fresh test (line chart)
+## Beat 4 — Why eval *design* matters (line chart)
 
 **Section label:** `Fresh test`
 
-**Definition (introduce term once):**
+**Definition:**
 
-- `Keep some tickets aside. Never use them while fixing the AI.`
-- `That is a fresh test (evals call it a held-out set).`
+- `Split the checklist: practice tickets vs fresh tickets.`
+- `Fix the AI using practice only. Fresh test = held-out set.`
 
-**Chart — line chart**
+**Setup line (on screen):**
 
-- X-axis: `Week` — `1`, `2`, `3`, `4`
-- Y-axis: `Passes (out of 20)`
+- `The team fixes failures on the practice list every week.`
 
-| Week | Practice list | Fresh test |
-|------|---------------|------------|
+**Line chart**
+
+- X: `Week` 1–4
+- Y: `Passes (out of 20)`
+
+| Week | Practice tickets (fix using these) | Fresh tickets (never used while fixing) |
+|------|-------------------------------------|----------------------------------------|
 | 1 | 8 | 9 |
 | 2 | 12 | 9 |
 | 3 | 16 | 8 |
@@ -185,71 +177,68 @@ Target length after animation: **~75–90 seconds** (longer holds than the 43s c
 
 **Legend:**
 
-- Blue: `Practice list (used while fixing)`
-- Yellow: `Fresh test (not used while fixing)`
+- Blue: `Practice list`
+- Yellow: `Fresh test`
 
 **Caption:**
 
-- `The practice score rises. The fresh test does not.`
+- `You can raise the practice score and still not improve on new mail.`
 
 **Narration:**
 
-> The team keeps improving the product against the twenty tickets they already use every day. That score climbs: eight, twelve, sixteen, eighteen. They never train on a separate batch of twenty tickets kept aside from the start. That fresh test stays near nine. The number you optimize becomes a report card for memorizing the practice list. The fresh test is still the honest check.
-
-**Animation:** Draw blue line + point labels, then yellow line + labels, then caption.
-
-**Intuition check:** “Practice” vs “fresh” parallels studying old exam questions vs sitting a new exam.
+> Evals are not a one-time score. The team keeps fixing the assistant. If every fix is judged on the same tickets they edit against, the practice score climbs — eight, twelve, sixteen, eighteen. Hold twenty tickets aside from day one. Never fix toward them. That fresh test stays near nine. The headline number you optimized was practice memory. The fresh test is whether customer mail actually got better. That is why eval design matters.
 
 ---
 
-## Beat 5 — Recap
+## Beat 5 — Recap (why evals matter)
 
-**On screen:**
+**Title:** `Why bother with evals?`
 
-- Title: `Three ideas`
+**Three bullets (on screen):**
 
-| Term | One-line meaning |
-|------|------------------|
-| **Demo** | One example, usually picked to impress you. |
-| **Eval** | A frozen checklist, written rules, and a pass count. |
-| **Fresh test** | Tickets kept aside so fixes cannot train on them. |
+1. **See past the demo** — know pass rate on real situations, not one highlight.
+2. **Track real progress** — separate “we memorized the test” from “we improved.”
+3. **Ship with evidence** — rollout, pause, or fix based on a score, not a meeting.
+
+**Three terms (compact cards):**
+
+| **Demo** | One chosen example. |
+| **Eval** | Frozen checklist + rules + score. |
+| **Fresh test** | Tickets kept aside while you fix. |
 
 **Close (yellow):**
 
-- `No frozen checklist and no written rules → you do not have an eval. You have a demo.`
+- `No frozen checklist and no written rules → you only have demos.`
 
 **Narration:**
 
-> Three ideas. Demo: one chosen example. Eval: frozen checklist, written rules, pass count. Fresh test: tickets you never use while fixing. Without the checklist frozen first and fail defined in writing, you are still watching demos.
+> Why evals matter. They show what one good answer hid. They give you a number while you build. They stop you from claiming victory because the practice test got easier. Demo: one example. Eval: frozen list, rules, score. Fresh test: honest check while you improve. Without those, you are guessing.
 
 ---
 
-## Numbers cheat sheet (do not change without updating both charts)
+## Numbers cheat sheet
 
-- Sample rows: **2 pass, 3 fail** on 5
-- Full checklist size: **20**
-- Product from demo: **8/20**
-- Other product: **15/20**
+- Five-ticket sample: **2 pass, 3 fail**
+- Full checklist: **20 tickets**
+- Demo measurement: **1 / 1**
+- Full eval (same AI): **8 / 20**
 - Practice line: **8 → 12 → 16 → 18**
 - Fresh line: **9, 9, 8, 9**
 
 ---
 
-## What was wrong in the previous cut (content notes)
+## Retired ideas (do not bring back)
 
-1. **“Won the demo” / “Lost the demo”** — Sounds like winners and losers, not *same test, two products*.
-2. **“Case”** — Too abstract without “test case” or “customer situation.”
-3. **Rules missing on screen** — Fails look arbitrary without *wrong policy / no handoff*.
-4. **Held-out first** — Jargon before the idea (*tickets kept aside*).
-5. **Pace** — Terms appeared faster than a non-technical viewer could map demo → list → score.
+- Two products, “won the demo,” vendor bake-off, 8 vs 15 as a **comparison** story.
+- Any bar chart that implies picking between tools.
 
 ---
 
-## Step 2 checklist (animation — not done in this step)
+## Step 2 checklist (animation)
 
-- [ ] Rename scene beats to match sections above
-- [ ] Add rules card in beat 2
-- [ ] Relabel bars: `Product from the demo` / `The other product`
-- [ ] Relabel held-out beat to `Fresh test` with parenthetical held-out once
-- [ ] Lengthen `wait()` times per hold targets
-- [ ] Sync `evals/NARRATION.md` line-for-line with this file
+- [ ] Single AI; bar chart = `Demo` (1/1) vs `Full eval` (8/20)
+- [ ] Rules card on checklist beat
+- [ ] `Fresh test` section + practice/fresh line chart
+- [ ] Recap beat: *why evals matter* bullets + three terms
+- [ ] Match `evals/NARRATION.md`
+- [ ] Re-render 1080p

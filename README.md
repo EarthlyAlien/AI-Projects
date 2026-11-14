@@ -1,6 +1,6 @@
 # Why evals
 
-A short silent animation about why a good demo is not a measurement. The pictures are made with [ManimGL](https://github.com/3b1b/manim), the engine Grant Sanderson uses for 3Blue1Brown. The scene is original. It does not use code from [3b1b/videos](https://github.com/3b1b/videos).
+A short silent animation about **why AI evals matter** — not a tool comparison. One support AI goes from a glowing demo to a full checklist, a real score, and a practice-versus-fresh check. Pictures are made with [ManimGL](https://github.com/3b1b/manim) (3Blue1Brown’s engine). The scene is original and does not use code from [3b1b/videos](https://github.com/3b1b/videos).
 
 The **content script** (story, on-screen copy, chart numbers, terminology) is in [evals/VIDEO_CONTENT.md](evals/VIDEO_CONTENT.md). The voiceover is in [evals/NARRATION.md](evals/NARRATION.md), aligned to that script.
 

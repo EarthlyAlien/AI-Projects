@@ -1,73 +1,77 @@
 # Why AI evals matter — voiceover
 
-Read this with the picture. Full storyboard and chart labels: [VIDEO_CONTENT.md](VIDEO_CONTENT.md).
+Storyboard and chart copy: [VIDEO_CONTENT.md](VIDEO_CONTENT.md).
 
-Pace: plain situation first, then the term. Pause on each chart until the numbers are readable.
+This is about **why evals matter**, not comparing two products. One support AI the whole way through.
 
 ---
 
 ## Title / hook
 
-In a sales call you see one perfect answer. That is a demo. It is not proof the AI works on your real week of customer mail.
+Teams ship AI on demos. One answer looks perfect in the room. That is not measurement.
 
-An eval is different: you write the situations first, you write what counts as wrong, you run the AI on all of them, and you count passes.
+It does not tell you how the system does on a normal week, whether you are improving, or whether you are ready to roll out.
+
+Evals exist for that: a fixed list of real situations, rules for pass and fail, and a score you can track.
 
 ---
 
 ## Demo
 
-Here is the demo. One customer email. The box arrived two weeks late. The customer asks for a partial refund.
+Here is the demo. One email. The box arrived late. The customer asks for a partial refund.
 
-The AI says yes, and the policy really does allow that refund. Mark it pass.
+The AI answers well. Mark it pass. Stakeholders nod.
 
-That is still a single test case. The vendor chose this email. You have not seen the other messages from a normal week.
-
----
-
-## Test case and checklist
-
-A test case is one situation the AI must handle.
-
-Before you run the model, you freeze a checklist. You write the rules first. Wrong policy or made-up fact: fail. Customer asks for a human and the AI keeps chatting: fail.
-
-Partial refund on a late box: pass. Customer wanted to cancel; the AI offered a refund instead: fail. Tracking question in Spanish: pass. Third angry email, still no human: fail. “Where is my order?” with no order number: fail.
-
-Two passes, three fails on five.
-
-A real eval runs the full list — twenty tickets here — frozen before anyone runs the AI. Same rules. You do not add tickets just because the model failed.
+If you stop here, you only know how the AI did on one message someone selected. You do not know how it does on the rest of the job.
 
 ---
 
-## Score
+## Eval checklist
 
-Now the score. Twenty frozen tickets. Same pass/fail rules for both assistants.
+An eval starts before you run the model. Freeze the checklist. Write what fail means.
 
-The product they showed in the demo: eight passes out of twenty.
+Wrong policy or invented fact: fail. Customer asks for a human and the AI keeps chatting: fail.
 
-The other product: fifteen out of twenty.
+Partial refund on a late package: pass. Cancel confused with refund: fail. Tracking in Spanish: pass. No human on the third angry email: fail. Order status with no order number: fail.
 
-The one that looked better in the meeting scored lower on the full checklist, because the meeting only showed one email.
+Two of five pass on this slice. The full eval runs twenty tickets like these, with the list frozen before anyone hits run.
+
+---
+
+## Score — demo vs full eval
+
+Count passes on the same AI.
+
+The demo was really one ticket tested: one pass out of one.
+
+The full eval on twenty frozen tickets: eight passes out of twenty.
+
+The demo was not wrong. That answer was fine. It was incomplete. Without the eval you ship on a highlight. With it you see the gap.
 
 ---
 
 ## Fresh test
 
-Some tickets stay aside from day one. The team never uses them while fixing the product. That is the fresh test. Evaluation teams call it a held-out set.
+The team keeps fixing the assistant every week.
 
-Week by week, the score on the practice list climbs: eight, twelve, sixteen, eighteen.
+They judge fixes on one part of the checklist — the practice list. That score climbs: eight, twelve, sixteen, eighteen.
 
-The fresh test stays near nine.
+From day one, twenty other tickets stay aside. They never fix toward those. That is the fresh test — a held-out set.
 
-The number you keep improving is a report card for the practice list. The fresh test is still the honest check.
+The fresh score stays near nine.
+
+You can raise the practice number and still not get better on new customer mail. That is why how you design the eval matters.
 
 ---
 
-## Recap
+## Why evals matter — recap
 
-Demo: one example, usually picked to impress you.
+Evals show what one good demo hid.
 
-Eval: a frozen checklist, written rules, and a pass count.
+They give you a number while you build.
 
-Fresh test: tickets you never use while fixing the AI.
+They separate memorizing the practice test from actually improving.
 
-Without the checklist frozen first and fail defined in writing, you do not have an eval. You have a demo.
+Demo: one chosen example. Eval: frozen list, rules, score. Fresh test: honest check while you fix.
+
+Without a frozen checklist and written rules, you only have demos.
