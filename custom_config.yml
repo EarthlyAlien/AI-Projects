@@ -1,0 +1,25 @@
+# Local render settings for the evals short.
+# Resolution matches manimgl's --hd preset. Grant's own videos
+# render at 4K; a one-minute post does not need that.
+directories:
+  mirror_module_path: False
+  base: ""
+  subdirs:
+    output: "evals/media"
+    latex_cache: "latex_cache"
+camera:
+  resolution: (1920, 1080)
+  background_color: "#000000"
+  fps: 30
+  background_opacity: 1.0
+text:
+  font: "Liberation Serif"
+  alignment: "CENTER"
+tex:
+  # "default" pulls in dsfont, physics, and the rest of Grant's full preamble.
+  # "basic" is amsmath, amssymb, and xcolor, which is all this scene uses.
+  template: "basic"
+scene:
+  show_animation_progress: False
+embed:
+  autoreload: False

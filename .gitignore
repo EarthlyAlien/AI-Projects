@@ -157,6 +157,10 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# Manim scratch. The finished film under evals/media is committed.
+latex_cache/
+**/partial_movie_files/
+
 # Cython debug symbols
 cython_debug/
 
