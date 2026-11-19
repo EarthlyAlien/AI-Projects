@@ -43,7 +43,9 @@ def new_canvas() -> tuple[Image.Image, ImageDraw.ImageDraw]:
     return img, ImageDraw.Draw(img)
 
 
-def save(img: Image.Image, name: str) -> None:
+def save(img: Image.Image, stem: str) -> None:
+    """Write cache-busted filenames (*-diagrams.jpg) to repo + artifacts."""
+    name = f"{stem}-diagrams.jpg"
     OUT.mkdir(parents=True, exist_ok=True)
     ART.mkdir(parents=True, exist_ok=True)
     for folder in (OUT, ART):
@@ -112,7 +114,7 @@ def render_01() -> None:
     shield(d, 1420, 560, 1.35)
     d.text((1180, 820), "Frozen cases. Written fail rules.", font=font(34), fill=MUTED)
     d.text((1280, 880), "Score the whole job.", font=font(40, True), fill=NAVY)
-    save(img, "01-hero.jpg")
+    save(img, "01-hero")
 
 
 def render_02() -> None:
@@ -128,7 +130,7 @@ def render_02() -> None:
     d.text((760, 500), "looks fine", font=font(44, True), fill=AMBER)
     d.text((760, 570), "to me", font=font(44, True), fill=WHITE)
     d.text((560, 820), "Read three outputs. Nod. Ship.", font=font(36), fill=MUTED)
-    save(img, "02-personal-vibe.jpg")
+    save(img, "02-personal-vibe")
 
 
 def render_03() -> None:
@@ -149,7 +151,7 @@ def render_03() -> None:
     d.polygon([(1100, 500), (1640, 500), (1480, 680), (1260, 680)], fill=NAVY)
     shield(d, 1370, 820, 0.95)
     d.text((1080, 900), "Frozen rules catch costly misses.", font=font(32, True), fill=NAVY)
-    save(img, "03-enterprise-blast.jpg")
+    save(img, "03-enterprise-blast")
 
 
 def render_04() -> None:
@@ -171,7 +173,7 @@ def render_04() -> None:
         y = 470 + i * 50
         d.rectangle((1180, y, 1680, y + 22), fill=SOFT)
     d.text((1180, 740), "No retroactive refund.", font=font(34, True), fill=NAVY)
-    save(img, "04-chatbot-policy.jpg")
+    save(img, "04-chatbot-policy")
 
 
 def render_05() -> None:
@@ -191,7 +193,7 @@ def render_05() -> None:
     # arrows
     for x in (640, 1180):
         d.polygon([(x, 560), (x + 50, 590), (x, 620)], fill=AMBER)
-    save(img, "05-ladder.jpg")
+    save(img, "05-ladder")
 
 
 def render_06() -> None:
@@ -216,7 +218,7 @@ def render_06() -> None:
     for x, y in pts2:
         d.ellipse((x - 10, y - 10, x + 10, y + 10), fill=AMBER)
     d.text((1180, 880), "Customers unchanged", font=font(34, True), fill=NAVY)
-    save(img, "06-fresh-vs-practice.jpg")
+    save(img, "06-fresh-vs-practice")
 
 
 def main() -> None:

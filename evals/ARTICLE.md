@@ -6,7 +6,7 @@ This is a series of pictures and stories for that argument. Not a bake-off. Not 
 
 The pictures follow B2B / tech-blog diagram practice (see `IMAGE_PROMPTS.md`): **one job per frame, fixed navy/amber palette, short witty labels drawn in code** — not photoreal mood shots, not unlabeled SaaS icons. Business readers should get the claim in two seconds.
 
-![Hero: kitchen lamp vs corporate tower](article/01-hero.jpg)
+![Hero: kitchen lamp vs corporate tower](article/01-hero-diagrams.jpg)
 
 *Same model. Left: sticky-note vibe check. Right: checklist shield. Different blast radius.*
 
@@ -18,7 +18,7 @@ Almost everyone starts the same way.
 
 You change a prompt. You try three examples. You say “yeah that feels better.” You ship. That is a **vibe check**. It is not shameful. It is how you find the first bugs worth caring about.
 
-![Late-night vibe check at the kitchen table](article/02-personal-vibe.jpg)
+![Late-night vibe check at the kitchen table](article/02-personal-vibe-diagrams.jpg)
 
 *Personal mode: “looks fine to me.” Dinner is the only stakeholder.*
 
@@ -30,7 +30,7 @@ You change a prompt. You try three examples. You say “yeah that feels better.�
 2. Handwrite 10–20 scenarios you want to nail, and figure out how to score them  
 3. Pull production traces into datasets and run the machinery from step 2  
 
-![Stairs as the three stages of evals](article/05-ladder.jpg)
+![Stairs as the three stages of evals](article/05-ladder-diagrams.jpg)
 
 *Ankur’s ladder as a process: vibe → handwrite 10–20 → feed prod traces into the same tests.*
 
@@ -61,13 +61,13 @@ That is not laziness. That is matching the cost of measurement to the cost of be
 
 When the same casual process hits a company surface, the story stops being funny.
 
-![Ticket storm swallowing an empty desk](article/03-enterprise-blast.jpg)
+![Ticket storm swallowing an empty desk](article/03-enterprise-blast-diagrams.jpg)
 
 *Without evals: tickets pile, someone vibes harder. With evals: frozen rules catch costly misses.*
 
 In 2022, Jake Moffatt used Air Canada’s website chatbot after a family death. The bot told them they could apply for bereavement fares **retroactively** within 90 days. The real policy did not work that way. Moffatt booked full-price flights relying on the bot. Air Canada later called the bot’s words “misleading,” then argued it was not responsible for its own chatbot. A British Columbia tribunal disagreed and ordered the airline to pay. Coverage: [The Guardian](https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit), [Ars Technica](https://arstechnica.com/tech-policy/2024/02/air-canada-must-honor-refund-policy-invented-by-airlines-chatbot/), decision records at the [Civil Resolution Tribunal](https://decisions.civilresolutionbc.ca/crt/crtd/en/525448/1/document.do).
 
-![Traveler trusting a chatbot before a flight](article/04-chatbot-policy.jpg)
+![Traveler trusting a chatbot before a flight](article/04-chatbot-policy-diagrams.jpg)
 
 *Chatbot invents a 90-day refund. Real policy says no. One screenshot ends the vibe.*
 
@@ -91,7 +91,7 @@ Vibe checks discover. Evals remember.
 
 Without memory, every prompt tweak is a new religion. With memory, you can say: same twenty tickets, same meaning of wrong, score went from 8/20 to 12/20, and the fresh set did not move — so stop celebrating.
 
-![Treadmill vs rain: practice score vs fresh tickets](article/06-fresh-vs-practice.jpg)
+![Treadmill vs rain: practice score vs fresh tickets](article/06-fresh-vs-practice-diagrams.jpg)
 
 *Practice list climbs. Fresh tickets stay flat. Dashboard parties. Customers unchanged.*
 
@@ -132,12 +132,12 @@ Enterprise: evals are how you keep the blast radius from becoming the product.
 
 | File | Story beat |
 |------|------------|
-| `article/01-hero.jpg` | Sticky note vs checklist shield |
-| `article/02-personal-vibe.jpg` | Looks fine to me |
-| `article/03-enterprise-blast.jpg` | Without evals vs with evals |
-| `article/04-chatbot-policy.jpg` | Invented refund ≠ real policy |
-| `article/05-ladder.jpg` | Three-stage process |
-| `article/06-fresh-vs-practice.jpg` | Practice vs fresh charts |
+| `article/01-hero-diagrams.jpg` | Sticky note vs checklist shield |
+| `article/02-personal-vibe-diagrams.jpg` | Looks fine to me |
+| `article/03-enterprise-blast-diagrams.jpg` | Without evals vs with evals |
+| `article/04-chatbot-policy-diagrams.jpg` | Invented refund ≠ real policy |
+| `article/05-ladder-diagrams.jpg` | Three-stage process |
+| `article/06-fresh-vs-practice-diagrams.jpg` | Practice vs fresh charts |
 
 Prompt notes: [`IMAGE_PROMPTS.md`](IMAGE_PROMPTS.md).
 
