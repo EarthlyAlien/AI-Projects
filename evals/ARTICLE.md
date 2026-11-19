@@ -139,4 +139,6 @@ For enterprise products, evals are how you keep that blast radius from becoming 
 
 Image recipe: [`IMAGE_PROMPTS.md`](IMAGE_PROMPTS.md).
 
+For Substack copy-paste, use [`SUBSTACK.md`](SUBSTACK.md).
+
 Sources: Hamel Husain, Ankur Goyal, Daniel Olshansky, and the Air Canada / Moffatt coverage plus the tribunal decision.

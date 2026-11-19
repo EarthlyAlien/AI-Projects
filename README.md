@@ -6,9 +6,10 @@ The deliverable is an **article + image series**, not a film-first piece.
 
 ## Read this
 
-- **Article:** [evals/ARTICLE.md](evals/ARTICLE.md) — witty take with real examples (Hamel Husain on vibe checks → evals, Ankur Goyal’s three stages, Air Canada / Moffatt chatbot refund case)
+- **Article (repo):** [evals/ARTICLE.md](evals/ARTICLE.md)
+- **Substack paste file:** [evals/SUBSTACK.md](evals/SUBSTACK.md) — copy from PASTE START, upload images where marked
 - **Images:** [evals/article/](evals/article/) — six 16:9 AI editorial panels
-- **Image recipe:** [evals/IMAGE_PROMPTS.md](evals/IMAGE_PROMPTS.md) — GenerateImage prompts with grid/alignment rules (no Pillow)
+- **Image recipe:** [evals/IMAGE_PROMPTS.md](evals/IMAGE_PROMPTS.md)
 
 | Image | Beat |
 |-------|------|
