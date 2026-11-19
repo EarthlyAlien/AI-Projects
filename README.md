@@ -9,18 +9,19 @@ The deliverable is an **article + image series**, not a film-first piece.
 - **Article:** [evals/ARTICLE.md](evals/ARTICLE.md) — witty take with real examples (Hamel Husain on vibe checks → evals, Ankur Goyal’s three stages, Air Canada / Moffatt chatbot refund case)
 - **Images:** [evals/article/](evals/article/) — six 16:9 panels for the piece
 
-Cinematic stills (one story moment each, captions in the article, shared warm-lamp / cold-tower grade):
+Labeled B2B diagram series (Pillow, fixed palette — see research notes):
 
 | Image | Beat |
 |-------|------|
-| `01-hero.jpg` | Kitchen desk vs corporate tower |
-| `02-personal-vibe.jpg` | Late-night vibe check smile |
-| `03-enterprise-blast.jpg` | Ticket storm vs empty chair |
-| `04-chatbot-policy.jpg` | Traveler trusts a chatbot |
-| `05-ladder.jpg` | Stairs: thumbs-up → notebook → rack |
-| `06-fresh-vs-practice.jpg` | Treadmill practice vs rainy road |
+| `01-hero.jpg` | Personal sticky note vs enterprise checklist |
+| `02-personal-vibe.jpg` | Read three. Nod. Ship. |
+| `03-enterprise-blast.jpg` | Without evals vs with evals |
+| `04-chatbot-policy.jpg` | Invented refund ≠ real policy |
+| `05-ladder.jpg` | Vibe → 10–20 cases → prod traces |
+| `06-fresh-vs-practice.jpg` | Practice climbs; fresh stays flat |
 
-Prompt craft notes: [`evals/IMAGE_PROMPTS.md`](evals/IMAGE_PROMPTS.md).
+Rebuild: `python3 evals/render_article_images.py`  
+Technique notes: [`evals/IMAGE_PROMPTS.md`](evals/IMAGE_PROMPTS.md).
 
 ## Optional Manim short
 

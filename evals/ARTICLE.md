@@ -4,11 +4,11 @@
 
 This is a series of pictures and stories for that argument. Not a bake-off. Not a model leaderboard. Just the gap between “feels good on my laptop” and “still works after you ship.”
 
-The pictures follow a simple rule from good AI image practice: **one clear story moment per frame, almost no text baked into the image.** Captions do the talking. The frames share one color grade — warm desk lamp vs cold glass tower — so the series reads as one film stills reel.
+The pictures follow B2B / tech-blog diagram practice (see `IMAGE_PROMPTS.md`): **one job per frame, fixed navy/amber palette, short witty labels drawn in code** — not photoreal mood shots, not unlabeled SaaS icons. Business readers should get the claim in two seconds.
 
 ![Hero: kitchen lamp vs corporate tower](article/01-hero.jpg)
 
-*Same model. Left: a sticky note and a mug. Right: a tower with a red beacon. Different blast radius.*
+*Same model. Left: sticky-note vibe check. Right: checklist shield. Different blast radius.*
 
 ---
 
@@ -20,7 +20,7 @@ You change a prompt. You try three examples. You say “yeah that feels better.�
 
 ![Late-night vibe check at the kitchen table](article/02-personal-vibe.jpg)
 
-*Personal mode: smile, sticky notes, cat on the sill. Dinner is the only stakeholder.*
+*Personal mode: “looks fine to me.” Dinner is the only stakeholder.*
 
 [Hamel Husain](https://hamel.dev/blog/posts/evals/) puts it plainly: you need a way to measure success **beyond** vibe checks, which are useful but not enough. Elsewhere he says the “vibe checks *or* rigorous evals” framing is already wrong. The best teams treat vibe checks as the **first step** of evaluation, not a substitute for it.
 
@@ -32,7 +32,7 @@ You change a prompt. You try three examples. You say “yeah that feels better.�
 
 ![Stairs as the three stages of evals](article/05-ladder.jpg)
 
-*Bottom step: thumbs-up sticky. Middle: notebook with empty checkboxes. Top: cables into a glowing rack. Climb, don’t stay on the first rung.*
+*Ankur’s ladder as a process: vibe → handwrite 10–20 → feed prod traces into the same tests.*
 
 Personal projects often stop at step 1. Enterprise work that lasts past the demo week eventually needs steps 2 and 3, whether anyone wants to admit it or not.
 
@@ -63,13 +63,13 @@ When the same casual process hits a company surface, the story stops being funny
 
 ![Ticket storm swallowing an empty desk](article/03-enterprise-blast.jpg)
 
-*When surface area grows, vibes become heroics. The empty chair is the giveaway.*
+*Without evals: tickets pile, someone vibes harder. With evals: frozen rules catch costly misses.*
 
 In 2022, Jake Moffatt used Air Canada’s website chatbot after a family death. The bot told them they could apply for bereavement fares **retroactively** within 90 days. The real policy did not work that way. Moffatt booked full-price flights relying on the bot. Air Canada later called the bot’s words “misleading,” then argued it was not responsible for its own chatbot. A British Columbia tribunal disagreed and ordered the airline to pay. Coverage: [The Guardian](https://www.theguardian.com/world/2024/feb/16/air-canada-chatbot-lawsuit), [Ars Technica](https://arstechnica.com/tech-policy/2024/02/air-canada-must-honor-refund-policy-invented-by-airlines-chatbot/), decision records at the [Civil Resolution Tribunal](https://decisions.civilresolutionbc.ca/crt/crtd/en/525448/1/document.do).
 
 ![Traveler trusting a chatbot before a flight](article/04-chatbot-policy.jpg)
 
-*Passport on the table. Chat on the screen. One invented policy sentence is enough.*
+*Chatbot invents a 90-day refund. Real policy says no. One screenshot ends the vibe.*
 
 Nobody vibed that failure into a spreadsheet first. Personal projects invent wrong cumin. Enterprises invent wrong refunds.
 
@@ -93,7 +93,7 @@ Without memory, every prompt tweak is a new religion. With memory, you can say: 
 
 ![Treadmill vs rain: practice score vs fresh tickets](article/06-fresh-vs-practice.jpg)
 
-*Left: rehearsing on the treadmill. Right: the actual road. Dashboard parties. Customers unchanged.*
+*Practice list climbs. Fresh tickets stay flat. Dashboard parties. Customers unchanged.*
 
 ---
 
@@ -132,12 +132,12 @@ Enterprise: evals are how you keep the blast radius from becoming the product.
 
 | File | Story beat |
 |------|------------|
-| `article/01-hero.jpg` | Establishing shot: kitchen desk vs tower |
-| `article/02-personal-vibe.jpg` | Vibe check smile |
-| `article/03-enterprise-blast.jpg` | Ticket storm |
-| `article/04-chatbot-policy.jpg` | Traveler trusts the bot |
-| `article/05-ladder.jpg` | Three stages as stairs |
-| `article/06-fresh-vs-practice.jpg` | Treadmill vs rain |
+| `article/01-hero.jpg` | Sticky note vs checklist shield |
+| `article/02-personal-vibe.jpg` | Looks fine to me |
+| `article/03-enterprise-blast.jpg` | Without evals vs with evals |
+| `article/04-chatbot-policy.jpg` | Invented refund ≠ real policy |
+| `article/05-ladder.jpg` | Three-stage process |
+| `article/06-fresh-vs-practice.jpg` | Practice vs fresh charts |
 
 Prompt notes: [`IMAGE_PROMPTS.md`](IMAGE_PROMPTS.md).
 
