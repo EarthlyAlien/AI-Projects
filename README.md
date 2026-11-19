@@ -7,21 +7,17 @@ The deliverable is an **article + image series**, not a film-first piece.
 ## Read this
 
 - **Article:** [evals/ARTICLE.md](evals/ARTICLE.md) — witty take with real examples (Hamel Husain on vibe checks → evals, Ankur Goyal’s three stages, Air Canada / Moffatt chatbot refund case)
-- **Images:** [evals/article/](evals/article/) — six 16:9 panels for the piece
-
-Labeled B2B diagram series (Pillow, fixed palette — see research notes):
+- **Images:** [evals/article/](evals/article/) — six 16:9 AI editorial panels
+- **Image recipe:** [evals/IMAGE_PROMPTS.md](evals/IMAGE_PROMPTS.md) — GenerateImage prompts with grid/alignment rules (no Pillow)
 
 | Image | Beat |
 |-------|------|
-| `01-hero-diagrams.jpg` | Personal sticky note vs enterprise checklist |
-| `02-personal-vibe-diagrams.jpg` | Read three. Nod. Ship. |
-| `03-enterprise-blast-diagrams.jpg` | Without evals vs with evals |
-| `04-chatbot-policy-diagrams.jpg` | Invented refund ≠ real policy |
-| `05-ladder-diagrams.jpg` | Vibe → 10–20 cases → prod traces |
-| `06-fresh-vs-practice-diagrams.jpg` | Practice climbs; fresh stays flat |
-
-Rebuild: `python3 evals/render_article_images.py`  
-Technique notes: [`evals/IMAGE_PROMPTS.md`](evals/IMAGE_PROMPTS.md).
+| `01-hero-aligned.jpg` | Personal sticky note vs enterprise checklist |
+| `02-personal-vibe-aligned.jpg` | Read three. Nod. Ship. |
+| `03-enterprise-blast-aligned.jpg` | Without evals vs with evals |
+| `04-chatbot-policy-aligned.jpg` | Invented refund ≠ real policy |
+| `05-ladder-aligned.jpg` | Vibe → 10–20 → prod traces |
+| `06-fresh-vs-practice-aligned.jpg` | Practice climbs; fresh stays flat |
 
 ## Optional Manim short
 

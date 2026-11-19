@@ -1,34 +1,28 @@
-# Efficient AI / blog images for business + tech storytelling
+# AI image recipe (no Pillow)
 
-## What we researched first
+Beautiful editorial AI frames + layout discipline.
 
-| Source | Technique we kept |
-|--------|-------------------|
-| [Semrush — AI images in posts](https://www.semrush.com/kb/1557-how-to-enhance-your-blog-posts-with-ai-images) | Prefer **diagrams** for process / comparison beats |
-| [Patrick Wings — B2B visual storytelling](https://www.patrickwings.com/en/insights/b2b-visual-storytelling/) | One sentence message; **one job per graphic**; before/after |
-| [BrandGene — SaaS blog illustrations](https://brandgene.io/blog/ai-image-generation/article-illustrations/ai-illustrations-for-saas-blog-posts) | No generic laptop people; no fake product UI |
-| [Floniks SaaS visuals playbook](https://floniks.com/learn/playbooks/saas-marketing-visuals-playbook) | Lock palette + abstraction; conceptual > stock photo |
-| [CapCut — AI images for tech blogs](https://www.capcut.com/ideas/ai-image/ai-image-for-tech-blogs) | One-sentence brief before making the asset |
-| [Ilir Ivezaj — enterprise prompt templates](https://ilirivezaj.com/ai/stable-diffusion-enterprise) | Reusable template; **overlay text programmatically** |
-| [Genlaxy — blog headers](https://genlaxy.ai/blog/blog-header-images-with-ai) | One recipe; change only the concept |
+## Principles (must show in every prompt)
 
-Photoreal “mood stills” and unlabeled flat icons both failed storytelling for this article. Business/tech readers need the claim readable in two seconds.
+1. **One job** — one claim per frame (Patrick Wings / Semrush)  
+2. **Grid** — imaginary 12-column; left margin clear; elements on shared vertical edges (OpenNews alignment)  
+3. **Proximity** — icon + label stacked as one unit; no floating orphans  
+4. **Macro whitespace** — calm empty band for the title (top or left third)  
+5. **Micro spacing** — even gaps between stacked items  
+6. **Limited palette** — soft cool gray, deep navy, one teal accent  
+7. **No fake dashboards / no logos / no photoreal clutter**  
+8. **Captions live in ARTICLE.md** — keep on-image words to ≤6 short labels if any  
 
-## Locked production recipe (what we ship)
+## Master prefix (paste first)
 
-Render with `python3 evals/render_article_images.py` (Pillow diagrams):
+```
+Polished flat editorial illustration for a B2B tech blog, Stripe Docs / Linear blog quality,
+hard-edged vector shapes, soft cool-gray background, deep navy and teal accent only,
+strict 12-column grid alignment, all shapes flush-left on the same vertical edge,
+even vertical spacing, generous empty top band for a headline, no scattered objects,
+no photoreal people, no glow, no gradients, no watermarks, no logos, 16:9
+```
 
-1. Write a one-sentence brief per frame  
-2. Fixed palette: cool-gray `#F1F3F6`, navy `#1A2B4A`, amber `#E88C24`  
-3. Diagram types only: before/after, process ladder, mismatch ≠, dual chart  
-4. Short witty labels drawn in code (no AI typography)  
-5. 1920×1080, same margins, same type scale  
+Then one concrete scene sentence.
 
-## Frame briefs
-
-1. Same model. Different blast radius. — sticky note vs checklist shield  
-2. Vibe checks are a feature when dinner is the stakeholder  
-3. Enterprise surface area breaks vibes — tickets through a cracked funnel  
-4. Invented chatbot refund ≠ real policy  
-5. Ladder: vibe → 10–20 cases → prod traces  
-6. Practice list climbs; fresh tickets stay flat  
+Rebuild artifacts with new filenames (`*-aligned.jpg`) so caches do not show old Pillow frames.
