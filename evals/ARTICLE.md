@@ -1,4 +1,6 @@
-# Why AI evals in enterprise when personal projects are just vibe checks?
+# Looks Fine to Me Is Not a Release Gate
+
+*Why companies need AI evals when side projects only need vibe checks*
 
 Here is the short answer. Your side project can fail in private, and almost nobody notices. A company chatbot fails in public, often on someone’s worst day, and Legal is already on the calendar invite.
 
