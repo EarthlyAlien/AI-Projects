@@ -13,12 +13,12 @@ Labeled B2B diagram series (Pillow, fixed palette — see research notes):
 
 | Image | Beat |
 |-------|------|
-| `01-hero.jpg` | Personal sticky note vs enterprise checklist |
-| `02-personal-vibe.jpg` | Read three. Nod. Ship. |
-| `03-enterprise-blast.jpg` | Without evals vs with evals |
-| `04-chatbot-policy.jpg` | Invented refund ≠ real policy |
-| `05-ladder.jpg` | Vibe → 10–20 cases → prod traces |
-| `06-fresh-vs-practice.jpg` | Practice climbs; fresh stays flat |
+| `01-hero-diagrams.jpg` | Personal sticky note vs enterprise checklist |
+| `02-personal-vibe-diagrams.jpg` | Read three. Nod. Ship. |
+| `03-enterprise-blast-diagrams.jpg` | Without evals vs with evals |
+| `04-chatbot-policy-diagrams.jpg` | Invented refund ≠ real policy |
+| `05-ladder-diagrams.jpg` | Vibe → 10–20 cases → prod traces |
+| `06-fresh-vs-practice-diagrams.jpg` | Practice climbs; fresh stays flat |
 
 Rebuild: `python3 evals/render_article_images.py`  
 Technique notes: [`evals/IMAGE_PROMPTS.md`](evals/IMAGE_PROMPTS.md).
