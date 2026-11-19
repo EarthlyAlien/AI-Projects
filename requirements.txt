@@ -1,0 +1,2 @@
+manimgl==1.7.2
+setuptools<81
