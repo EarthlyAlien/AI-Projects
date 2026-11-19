@@ -1,8 +1,11 @@
 # PASTE START — copy from the title below this line into Substack
 
-Looks Fine to Me Is Not a Release Gate
+Vibe Checks Are AI Evals. Yes and No.
 
-Why companies need AI evals when side projects only need vibe checks
+Why that answer changes when dinner stops being the only stakeholder
+
+[UPLOAD COVER: evals/article/00-cover-vibe-evals.jpg]
+Use this as the Substack post cover / preview image.
 
 Here is the short answer. Your side project can fail in private, and almost nobody notices. A company chatbot fails in public, often on someone’s worst day, and Legal is already on the calendar invite.
 
@@ -144,4 +147,4 @@ How to use this file
 4. Make each section title a Substack heading (select the line → Heading).
 5. At every [UPLOAD IMAGE: …] line, delete that line and upload the matching file from `evals/article/`.
 6. Keep the sentence under each image as the caption.
-7. Optional preview image: `01-hero-aligned.jpg`.
+7. Cover / preview image: `evals/article/00-cover-vibe-evals.jpg`.

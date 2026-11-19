@@ -1,6 +1,8 @@
-# Looks Fine to Me Is Not a Release Gate
+# Vibe Checks Are AI Evals. Yes and No.
 
-*Why companies need AI evals when side projects only need vibe checks*
+*Why that answer changes when dinner stops being the only stakeholder*
+
+![Cover](article/00-cover-vibe-evals.jpg)
 
 Here is the short answer. Your side project can fail in private, and almost nobody notices. A company chatbot fails in public, often on someone’s worst day, and Legal is already on the calendar invite.
 
@@ -132,6 +134,7 @@ For enterprise products, evals are how you keep that blast radius from becoming 
 
 | File | Story beat |
 |------|------------|
+| `article/00-cover-vibe-evals.jpg` | Substack cover: Yes sticky note / No checklist |
 | `article/01-hero-aligned.jpg` | Sticky-note vibe check versus enterprise checklist |
 | `article/02-personal-vibe-aligned.jpg` | “Looks fine to me” when dinner is the only stakeholder |
 | `article/03-enterprise-blast-aligned.jpg` | Working without evals versus working with evals |

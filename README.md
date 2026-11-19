@@ -13,6 +13,7 @@ The deliverable is an **article + image series**, not a film-first piece.
 
 | Image | Beat |
 |-------|------|
+| `00-cover-vibe-evals.jpg` | Substack cover: Yes / No |
 | `01-hero-aligned.jpg` | Personal sticky note vs enterprise checklist |
 | `02-personal-vibe-aligned.jpg` | Read three. Nod. Ship. |
 | `03-enterprise-blast-aligned.jpg` | Without evals vs with evals |
