@@ -1,14 +1,26 @@
-# Why AI evals?
+# Why AI evals in enterprise?
 
-A short silent animation that asks **Why AI evals?** and answers it with one support AI: a demo, a frozen checklist, a real score, and a practice-versus-fresh check. Pictures are made with [ManimGL](https://github.com/3b1b/manim) (3Blue1Brown’s engine). The scene is original and does not use code from [3b1b/videos](https://github.com/3b1b/videos).
+Personal projects live on **vibe checks**. Enterprise products need **evals** once real users, policy, and Legal enter the chat.
 
-The **content script** (story, on-screen copy, chart numbers, terminology) is in [evals/VIDEO_CONTENT.md](evals/VIDEO_CONTENT.md). The voiceover is in [evals/NARRATION.md](evals/NARRATION.md), aligned to that script.
+The deliverable is an **article + image series**, not a film-first piece.
 
-`evals/why_evals.py` follows that script: one support AI, title `Why AI evals?`, then the demo, the frozen checklist, the 1/1 versus 8/20 score, and the practice-versus-fresh chart.
+## Read this
 
-## Render
+- **Article:** [evals/ARTICLE.md](evals/ARTICLE.md) — witty take with real examples (Hamel Husain on vibe checks → evals, Ankur Goyal’s three stages, Air Canada / Moffatt chatbot refund case)
+- **Images:** [evals/article/](evals/article/) — six 16:9 panels for the piece
 
-Python 3.10 or newer, [FFmpeg](https://ffmpeg.org/), and Pango. This scene is drawn with text, so rendering it does not need LaTeX.
+| Image | Beat |
+|-------|------|
+| `01-hero.jpg` | Why enterprise evals when personal projects vibe-check? |
+| `02-personal-vibe.jpg` | Side-project blast radius |
+| `03-enterprise-blast.jpg` | Same joke, company stakes |
+| `04-chatbot-policy.jpg` | Invented policy vs a screenshot |
+| `05-ladder.jpg` | Vibe → scenarios → production traces |
+| `06-fresh-vs-practice.jpg` | Rehearsed score vs fresh tickets |
+
+## Optional Manim short
+
+An older silent animation still lives under `evals/` (`why_evals.py`, `VIDEO_CONTENT.md`, `media/WhyEvals.mp4`) if you want motion later. The article is the source of truth for this theme.
 
 ```sh
 python -m venv .venv
@@ -17,6 +29,6 @@ pip install -r requirements.txt
 manimgl evals/why_evals.py WhyEvals -w
 ```
 
-On a machine with no display, run that last command under `xvfb-run -a`. The file lands at `evals/media/WhyEvals.mp4`.
+On a machine with no display, run that under `xvfb-run -a`.
 
-`-l` renders a small preview. The committed file is 1920×1080 at 30 fps, from [custom_config.yml](custom_config.yml).
+The Manim scene uses stock [ManimGL](https://github.com/3b1b/manim) only. It does not use code from [3b1b/videos](https://github.com/3b1b/videos).
