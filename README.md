@@ -9,14 +9,18 @@ The deliverable is an **article + image series**, not a film-first piece.
 - **Article:** [evals/ARTICLE.md](evals/ARTICLE.md) — witty take with real examples (Hamel Husain on vibe checks → evals, Ankur Goyal’s three stages, Air Canada / Moffatt chatbot refund case)
 - **Images:** [evals/article/](evals/article/) — six 16:9 panels for the piece
 
+Cinematic stills (one story moment each, captions in the article, shared warm-lamp / cold-tower grade):
+
 | Image | Beat |
 |-------|------|
-| `01-hero.jpg` | Why enterprise evals when personal projects vibe-check? |
-| `02-personal-vibe.jpg` | Side-project blast radius |
-| `03-enterprise-blast.jpg` | Same joke, company stakes |
-| `04-chatbot-policy.jpg` | Invented policy vs a screenshot |
-| `05-ladder.jpg` | Vibe → scenarios → production traces |
-| `06-fresh-vs-practice.jpg` | Rehearsed score vs fresh tickets |
+| `01-hero.jpg` | Kitchen desk vs corporate tower |
+| `02-personal-vibe.jpg` | Late-night vibe check smile |
+| `03-enterprise-blast.jpg` | Ticket storm vs empty chair |
+| `04-chatbot-policy.jpg` | Traveler trusts a chatbot |
+| `05-ladder.jpg` | Stairs: thumbs-up → notebook → rack |
+| `06-fresh-vs-practice.jpg` | Treadmill practice vs rainy road |
+
+Prompt craft notes: [`evals/IMAGE_PROMPTS.md`](evals/IMAGE_PROMPTS.md).
 
 ## Optional Manim short
 
